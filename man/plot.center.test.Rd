@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{an object of class \code{center.test}}
 
-\item{band}{a vector of band limits for functional box plot}
+\item{band}{a vector of band limits for the functional box plot}
 
 \item{...}{any other arguments}
 }

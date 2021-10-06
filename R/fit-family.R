@@ -6,7 +6,7 @@
 #'
 #' @author Ryan Thompson <ryan.thompson@monash.edu>
 #'
-#' @description Estimates the Huber or trimmed mean location families.
+#' @description Fits the Huber or trimmed mean location families.
 #'
 #' @param x a numeric vector of data
 #' @param w a numeric vector of weights

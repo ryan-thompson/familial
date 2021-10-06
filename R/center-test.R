@@ -176,7 +176,7 @@ globalVariables(c('level', 'lower', 'upper', 'med', 'mu.hat'))
 #' @description Plot the posterior distribution for the family of centers using a functional box plot.
 #'
 #' @param x an object of class \code{center.test}
-#' @param band a vector of band limits for functional box plot
+#' @param band a vector of band limits for the functional box plot
 #' @param ... any other arguments
 #'
 #' @return A plot of the posterior distribution.
@@ -224,7 +224,6 @@ plot.center.test <- \(x, band = c(0.50, 0.75, 0.95), ...) {
     ggplot2::geom_line(ggplot2::aes(lambda, med), func.med) +
     ggplot2::xlab(expression(lambda)) +
     ggplot2::ylab(ifelse(is.null(x$y), expression(mu), expression(mu[X]-mu[Y]))) +
-    ggplot2::labs(linetype = 'Central region')
+    ggplot2::labs(alpha = 'Central region')
 
 }
-

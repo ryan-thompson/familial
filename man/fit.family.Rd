@@ -31,7 +31,7 @@ An object of class \code{fit.family}; a data frame with the following columns:
 \item{lambda}{the indexing parameter}
 }
 \description{
-Estimates the Huber or trimmed mean location families.
+Fits the Huber or trimmed mean location families.
 }
 \examples{
 fit <- fit.family(MASS::galaxies)

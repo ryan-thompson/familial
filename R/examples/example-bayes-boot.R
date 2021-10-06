@@ -1,11 +1,5 @@
 set.seed(1)
 
-# Sequential bootstrap
-boot <- bayes.boot(MASS::galaxies, fun = fit.family)
-head(boot)
-
-# Parallel bootstrap
-cl <- parallel::makeCluster(2)
-boot <- bayes.boot(MASS::galaxies, fun = fit.family)
-parallel::stopCluster(cl)
+# Bootstrap
+boot <- bayes.boot(MASS::galaxies, fun = fit.family, nboot = 100)
 head(boot)
