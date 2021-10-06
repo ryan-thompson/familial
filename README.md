@@ -1,8 +1,8 @@
 
 # familial
 
-<!-- [![R-CMD-check](https://github.com/ryan-thompson/familial/workflows/R-CMD-check/badge.svg)](https://github.com/ryan-thompson/familial/actions) -->
-<!-- [![codecov](https://codecov.io/gh/ryan-thompson/familial/branch/master/graph/badge.svg)](https://github.com/ryan-thompson/familial/actions) -->
+[![R-CMD-check](https://github.com/ryan-thompson/familial/workflows/R-CMD-check/badge.svg)](https://github.com/ryan-thompson/familial/actions)
+[![codecov](https://codecov.io/gh/ryan-thompson/familial/branch/master/graph/badge.svg)](https://github.com/ryan-thompson/familial/actions)
 
 ## Overview
 
