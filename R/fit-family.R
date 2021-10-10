@@ -185,7 +185,8 @@ plot.fit.family <- \(x, y = NULL, ...) {
     ggplot2::geom_hline(ggplot2::aes(yintercept = attributes(x)$mean, linetype = 'Mean')) +
     ggplot2::geom_hline(ggplot2::aes(yintercept = attributes(x)$median, linetype = 'Median')) +
     ggplot2::xlab(expression(lambda)) +
-    ggplot2::ylab(ifelse(is.null(y), expression(mu), expression(mu[X]-mu[Y]))) +
+    ggplot2::ylab(ifelse(is.null(y), expression(hat(mu)(lambda)),
+                         expression(hat(mu)[X](lambda)-hat(mu)[Y](lambda)))) +
     ggplot2::labs(linetype = 'Center')
 
 }

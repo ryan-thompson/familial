@@ -223,7 +223,8 @@ plot.center.test <- \(x, band = c(0.50, 0.75, 0.95), ...) {
                          func.bands) +
     ggplot2::geom_line(ggplot2::aes(lambda, med), func.med) +
     ggplot2::xlab(expression(lambda)) +
-    ggplot2::ylab(ifelse(is.null(x$y), expression(mu), expression(mu[X]-mu[Y]))) +
-    ggplot2::labs(alpha = 'Central region')
+    ggplot2::ylab(ifelse(is.null(x$y), expression(hat(mu)(lambda)),
+                         expression(hat(mu)[X](lambda)-hat(mu)[Y](lambda)))) +
+    ggplot2::labs(alpha = 'Posterior central region')
 
 }
