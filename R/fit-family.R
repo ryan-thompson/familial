@@ -12,8 +12,8 @@
 #' @param w a numeric vector of weights
 #' @param family the location family; currently allows 'huber' for Huber family (default) or
 #' 'trimmed' for trimmed mean family
-#' @param scale.fun a function used to estimate the scale \code{x} for Huber loss; ensures that the
-#' tuning parameter is comparable across variables with different scales
+#' @param scale.fun a function used to estimate the scale of \code{x} for the Huber family; ensures
+#' that the tuning parameter is comparable across variables with different scales
 #' @param eps a numerical tolerance parameter
 #'
 #' @return An object of class \code{fit.family}; a data frame with the following columns:
@@ -24,7 +24,7 @@
 #'
 #' @export
 
-fit.family <- \(x, w = rep(1, length(x)), family = c('huber', 'trimmed'), scale.fun = stats::mad,
+fit.family <- \(x, w = rep(1, length(x)), family = c('huber', 'trimmed'), scale.fun = weighted.mad,
                 eps = .Machine$double.eps) {
 
   # Check arguments are valid
@@ -34,10 +34,14 @@ fit.family <- \(x, w = rep(1, length(x)), family = c('huber', 'trimmed'), scale.
   if (all(w == 0)) stop('w must contain at least one positive value')
   if (length(x) != length(w)) stop('x and w must have the same length')
 
-  # Bifurcate and compute family
+  # Calculate mean and median
+  mean. <- stats::weighted.mean(x, w)
+  median. <- weighted.median(x, w)
+
+  # Compute family
   if (family == 'huber') {
-    result <- huber.family(x, w, eps)
-    scale.x <- scale.fun(x)
+    result <- huber.family(x, w, median., eps)
+    scale.x <- scale.fun(x, w)
     if (is.nan(scale.x) | scale.x == 0) scale.x <- 1 # Handles constant x
     result$lambda <- result$lambda / scale.x
   } else if (family == 'trimmed') {
@@ -47,17 +51,16 @@ fit.family <- \(x, w = rep(1, length(x)), family = c('huber', 'trimmed'), scale.
   # Return result
   class(result) <- c('fit.family', 'data.frame')
   attributes(result)$family <- family
-  attributes(result)$mean <- matrixStats::weightedMean(x, w)
-  attributes(result)$median <- matrixStats::weightedMedian(x, w, interpolate = all(w == w[1]))
+  attributes(result)$mean <- mean.
+  attributes(result)$median <- median.
   return(result)
 
 }
 
 # Huber family
-huber.family <- \(x, w, eps) {
+huber.family <- \(x, w, med, eps) {
   n <- length(x)
   w <- w / sum(w) * n
-  med <- matrixStats::weightedMedian(x, w, interpolate = all(w == w[1]))
   x <- x - med
   s <- sign(x)
   lambda <- mu <- numeric(n)

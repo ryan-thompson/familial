@@ -8,7 +8,7 @@ fit.family(
   x,
   w = rep(1, length(x)),
   family = c("huber", "trimmed"),
-  scale.fun = stats::mad,
+  scale.fun = weighted.mad,
   eps = .Machine$double.eps
 )
 }
@@ -20,8 +20,8 @@ fit.family(
 \item{family}{the location family; currently allows 'huber' for Huber family (default) or
 'trimmed' for trimmed mean family}
 
-\item{scale.fun}{a function used to estimate the scale \code{x} for Huber loss; ensures that the
-tuning parameter is comparable across variables with different scales}
+\item{scale.fun}{a function used to estimate the scale of \code{x} for the Huber family; ensures
+that the tuning parameter is comparable across variables with different scales}
 
 \item{eps}{a numerical tolerance parameter}
 }

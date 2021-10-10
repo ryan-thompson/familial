@@ -95,7 +95,7 @@ center.test(x, y)
     ## mu = 0 
     ## posterior probabilities: 
     ##    H0    H1 
-    ## 0.007 0.993 
+    ## 0.009 0.991 
     ## optimal decision: H1
 
 ``` r
