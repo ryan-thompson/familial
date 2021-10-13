@@ -6,8 +6,9 @@
 
 ## Overview
 
-An R package for testing familial hypotheses as described at \[paper
-forthcoming\]. Familial hypotheses are statements of the form:
+An R package for testing familial hypotheses. A paper describing
+familial hypothesis is forthcoming. Briefly, they are statements of the
+form:
 
 ![
 \\begin{aligned}
@@ -23,10 +24,22 @@ forthcoming\]. Familial hypotheses are statements of the form:
 
 where
 ![\\{\\mu(\\lambda):\\lambda\\in\\Lambda\\}](https://latex.codecogs.com/png.latex?%5C%7B%5Cmu%28%5Clambda%29%3A%5Clambda%5Cin%5CLambda%5C%7D "\{\mu(\lambda):\lambda\in\Lambda\}")
-is a family of population parameters. Presently, `familial` supports
-tests for the center of a distribution via the Huber or the trimmed mean
-families of location parameters. Testing is carried out using a Bayesian
+is a family of population parameters, e.g., different centers of a
+distribution induced by the Huber loss function with parameter
+![\\lambda](https://latex.codecogs.com/png.latex?%5Clambda "\lambda").
+In contrast to classic statistical tests such as the
+![t](https://latex.codecogs.com/png.latex?t "t") or sign test for the
+mean or median, familial tests do not require the user to choose a
+specific version of center, making them quite robust. See the package
+[vignette](vignette.pdf) for illustrations.
+
+Presently, `familial` supports tests of center via the Huber or the
+trimmed mean families of location parameters. Both of these families
+include the mean and median. Testing is carried out using a Bayesian
 approach whereby the posterior probabilities of the competing hypotheses
+![\\mathrm{H}\_0](https://latex.codecogs.com/png.latex?%5Cmathrm%7BH%7D_0 "\mathrm{H}_0")
+and
+![\\mathrm{H}\_1](https://latex.codecogs.com/png.latex?%5Cmathrm%7BH%7D_1 "\mathrm{H}_1")
 are computed using the Bayesian bootstrap. One- and two-sample tests are
 supported, as are directional tests. Methods for visualizing output are
 provided.
@@ -116,6 +129,7 @@ center.test(x, y, paired = T, alternative = 'greater')
 
 ## Documentation
 
-See the package [reference manual](familial_0.1.0.pdf).
+See the package [vignette](vignette.pdf) or [reference
+manual](familial_0.1.0.pdf).
 
 <!-- See the package [vignette](https://CRAN.R-project.org/package=familial/vignettes/vignette.html) or [reference manual](https://CRAN.R-project.org/package=familial/familial.pdf). -->
