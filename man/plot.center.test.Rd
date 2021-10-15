@@ -4,12 +4,15 @@
 \alias{plot.center.test}
 \title{Plot function for \code{center.test} object}
 \usage{
-\method{plot}{center.test}(x, band = c(0.5, 0.75, 0.95), ...)
+\method{plot}{center.test}(x, band = c(0.5, 0.75, 0.95), ninterp = 25, ...)
 }
 \arguments{
 \item{x}{an object of class \code{center.test}}
 
 \item{band}{a vector of band limits for the functional box plot}
+
+\item{ninterp}{the number of interpolation points for the functional box plot; more points lead
+to finer resolution of the plot at the expense of additional computation}
 
 \item{...}{any other arguments}
 }

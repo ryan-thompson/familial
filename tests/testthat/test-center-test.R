@@ -72,7 +72,8 @@ test_that('print function returns output', {
 test_that('plot function returns a plot', {
   set.seed(123)
   x <- rnorm(100)
-  path <- center.test(x)
-  p <- plot(path)
-  expect_s3_class(p, 'ggplot')
+  path <- center.test(x, family = 'huber')
+  expect_s3_class(plot(path), 'ggplot')
+  path <- center.test(x, family = 'trimmed')
+  expect_s3_class(plot(path), 'ggplot')
 })

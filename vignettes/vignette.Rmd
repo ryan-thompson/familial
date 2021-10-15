@@ -39,7 +39,7 @@ where $\lambda\in\Lambda=(0,\infty)$ and $\sigma$ is the scale of $X$. In this c
 $$
 \ell_\lambda(x,\mu):=
 \begin{cases}
-\frac{1}{2}(x-\mu)^2 & \text{if } \lambda\leq F(x)\leq1-\lambda \\
+\frac{1}{2}(x-\mu)^2 & \text{if } \lambda<F(x)<1-\lambda \\
 0 & \text{otherwise},
 \end{cases}
 $$

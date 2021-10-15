@@ -113,6 +113,7 @@ trimmed.family <- \(x, w, eps) {
   }
   data.frame(mu.hat = mu[m:1], lambda = lambda[m:1])
 }
+# https://stats.stackexchange.com/questions/16528/is-rs-trimmed-means-function-biased
 
 # Compare weighted version against:
 # tm <- function(x, w, lambda) {
@@ -165,25 +166,37 @@ plot.fit.family <- \(x, y = NULL, ...) {
     if (attributes(x)$family != attributes(y)$family) {
       stop('x and y must belong to the same family')
     }
+    if (attributes(x)$family == 'huber') {
+      int.method <- 'linear'
+    } else if (attributes(x)$family == 'trimmed') {
+      int.method <- 'constant'
+    }
+    family <- attributes(x)$family
     mean.diff <- attributes(x)$mean - attributes(y)$mean
     median.diff <- attributes(x)$median - attributes(y)$median
     lambda <- union(x$lambda, y$lambda)
     x <- stats::approx(x$lambda, x$mu.hat, lambda, yleft = x$mu.hat[which.min(x$lambda)],
                        yright = x$mu.hat[which.max(x$lambda)],
-                       method = ifelse(length(x$mu.hat) > 1, 'linear', 'constant'))
+                       method = ifelse(length(x$mu.hat) <= 1, 'constant', int.method))
     y <- stats::approx(y$lambda, y$mu.hat, lambda, yleft = y$mu.hat[which.min(y$lambda)],
                        yright = y$mu.hat[which.max(y$lambda)],
-                       method = ifelse(length(y$mu.hat) > 1, 'linear', 'constant'))
+                       method = ifelse(length(y$mu.hat) <= 1, 'constant', int.method))
     x <- data.frame(mu.hat = x$y - y$y, lambda = lambda)
+    attributes(x)$family <- family
     attributes(x)$mean <- mean.diff
     attributes(x)$median <- median.diff
   }
 
   # Plot family
-  ggplot2::ggplot(x, ggplot2::aes_string('lambda', 'mu.hat')) +
-    ggplot2::geom_line(ggplot2::aes(linetype = 'Huber')) +
-    ggplot2::geom_hline(ggplot2::aes(yintercept = attributes(x)$mean, linetype = 'Mean')) +
-    ggplot2::geom_hline(ggplot2::aes(yintercept = attributes(x)$median, linetype = 'Median')) +
+  family.name <- tools::toTitleCase(attributes(x)$family)
+  x$center <- family.name
+  x.mean <- data.frame(mu.hat = attributes(x)$mean, lambda = c(0, Inf), center = 'Mean')
+  x.median <- data.frame(mu.hat = attributes(x)$median, lambda = c(0, Inf), center = 'Median')
+  x <- rbind(x, x.mean, x.median)
+  x$center <- factor(x$center, c(family.name, 'Mean', 'Median'))
+  ggplot2::ggplot(x, ggplot2::aes_string('lambda', 'mu.hat', linetype = 'center')) +
+    {if (attributes(x)$family == 'huber') ggplot2::geom_line()} +
+    {if (attributes(x)$family == 'trimmed') ggplot2::geom_step()} +
     ggplot2::xlab(expression(lambda)) +
     ggplot2::ylab(ifelse(is.null(y), expression(hat(mu)(lambda)),
                          expression(hat(mu)[X](lambda)-hat(mu)[Y](lambda)))) +

@@ -88,16 +88,21 @@ center.test <- \(x, y = NULL, family = c('huber', 'trimmed'),
     interpolate <- \(b) {
       boot.b <- boot[boot$boot.id == b, ]
       lambda <- unique(boot.b$lambda)
+      if (family == 'huber') {
+        int.method <- 'linear'
+      } else if (family == 'trimmed') {
+        int.method = 'constant'
+      }
       x.b <- boot.b[boot.b$var == 'x', ]
       y.b <- boot.b[boot.b$var == 'y', ]
       x.b <- stats::approx(x.b$lambda, x.b$mu.hat, lambda,
                            yleft = x.b$mu.hat[which.min(x.b$lambda)],
                            yright = x.b$mu.hat[which.max(x.b$lambda)],
-                           method = ifelse(length(x.b$mu.hat) > 1, 'linear', 'constant'))
+                           method = ifelse(length(x.b$mu.hat) <= 1, 'constant', int.method))
       y.b <- stats::approx(y.b$lambda, y.b$mu.hat, lambda,
                            yleft = y.b$mu.hat[which.min(y.b$lambda)],
                            yright = y.b$mu.hat[which.max(y.b$lambda)],
-                           method = ifelse(length(y.b$mu.hat) > 1, 'linear', 'constant'))
+                           method = ifelse(length(y.b$mu.hat) <= 1, 'constant', int.method))
       data.frame(boot.id = b, mu.hat = x.b$y - y.b$y, lambda = x.b$x)
     }
     boot <- lapply(1:nboot, interpolate)
@@ -126,9 +131,9 @@ center.test <- \(x, y = NULL, family = c('huber', 'trimmed'),
                  boot = boot,
                  x = x,
                  y = y,
-                 mu = mu,
-                 family = family)
+                 mu = mu)
   class(result) <- 'center.test'
+  attributes(result)$family <- family
   return(result)
 
 }
@@ -177,6 +182,8 @@ globalVariables(c('level', 'lower', 'upper', 'med', 'mu.hat'))
 #'
 #' @param x an object of class \code{center.test}
 #' @param band a vector of band limits for the functional box plot
+#' @param ninterp the number of interpolation points for the functional box plot; more points lead
+#' to finer resolution of the plot at the expense of additional computation
 #' @param ... any other arguments
 #'
 #' @return A plot of the posterior distribution.
@@ -188,16 +195,21 @@ globalVariables(c('level', 'lower', 'upper', 'med', 'mu.hat'))
 #' @importFrom graphics "plot"
 #'
 
-plot.center.test <- \(x, band = c(0.50, 0.75, 0.95), ...) {
+plot.center.test <- \(x, band = c(0.50, 0.75, 0.95), ninterp = 25, ...) {
 
   # Interpolate bootstrap paths at same lambda sequence
-  lambda <- seq(min(x$boot$lambda), max(x$boot$lambda), length.out = 25)
+  lambda <- seq(min(x$boot$lambda), max(x$boot$lambda), length.out = ninterp)
   interpolate <- \(b) {
+    if (attributes(x)$family == 'huber') {
+      int.method <- 'linear'
+    } else if (attributes(x)$family == 'trimmed') {
+      int.method <- 'constant'
+    }
     x.b <- x$boot[x$boot$boot.id == b, ]
     x.b <- stats::approx(x.b$lambda, x.b$mu.hat, lambda,
                          yleft = x.b$mu.hat[which.min(x.b$lambda)],
                          yright = x.b$mu.hat[which.max(x.b$lambda)],
-                         method = ifelse(length(x.b$mu.hat) > 1, 'linear', 'constant'))
+                         method = ifelse(length(x.b$mu.hat) <= 1, 'constant', int.method))
     data.frame(boot.id = b, mu.hat = x.b$y, lambda = x.b$x)
   }
   boot <- lapply(1:max(x$boot$boot.id), interpolate)

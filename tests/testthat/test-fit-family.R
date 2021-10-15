@@ -30,11 +30,12 @@ test_that('x and w must be same length', {
 test_that('plot function returns a plot', {
   set.seed(123)
   x <- rnorm(100)
-  path.x <- fit.family(x)
-  p.x <- plot(path.x)
-  p.xx <- plot(path.x, path.x)
-  expect_s3_class(p.x, 'ggplot')
-  expect_s3_class(p.xx, 'ggplot')
+  path.x <- fit.family(x, family = 'huber')
+  expect_s3_class(plot(path.x), 'ggplot')
+  expect_s3_class(plot(path.x, path.x), 'ggplot')
+  path.x <- fit.family(x, family = 'trimmed')
+  expect_s3_class(plot(path.x), 'ggplot')
+  expect_s3_class(plot(path.x, path.x), 'ggplot')
 })
 
 test_that('plot function requires x and y to belong to same family', {
