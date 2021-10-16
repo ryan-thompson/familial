@@ -7,7 +7,7 @@
 center.test(
   x,
   y = NULL,
-  family = c("huber", "trimmed"),
+  family = "huber",
   alternative = c("two.sided", "less", "greater"),
   mu = 0,
   paired = FALSE,
@@ -22,8 +22,7 @@ center.test(
 
 \item{y}{an optional numeric vector of data}
 
-\item{family}{the location family; currently allows 'huber' for Huber family (default) or
-'trimmed' for trimmed mean family}
+\item{family}{the family of centers; currently only allows 'huber' for Huber family}
 
 \item{alternative}{the form of the alternative hypothesis; must be one of 'two.sided' (default),
 'greater', or 'less'}
@@ -45,7 +44,7 @@ number of candidate choices (typically c=3: H0, H1, or indeterminate)}
 \item{...}{any other arguments}
 }
 \value{
-A list with the following components:
+An object of class \code{center.test}; a list with the following components:
 \item{expected.loss}{the expected loss, calculated by post-multiplying \code{loss} with
 \code{prob}}
 \item{decision}{the optimal decision given the expected loss}
@@ -58,13 +57,13 @@ A list with the following components:
 \item{family}{the \code{family} that was supplied}
 }
 \description{
-Performs a one-sample or two-sample test for a location family.
+Performs a one- or two-sample test for a family of centers.
 }
 \details{
 Uses the Bayesian bootstrap to compute posterior probabilities for the hypotheses
-\eqn{H_0:\mu_\lambda=\mu_0} for some \eqn{\lambda\in\Lambda} and
-\eqn{H_1:\mu_\lambda\neq\mu_0} for all \eqn{\lambda\in\Lambda},
-where \eqn{\mu_\lambda} (\eqn{\lambda\in\Lambda}) is a family of centers. \cr
+\eqn{\mathrm{H}_0:\mu(\lambda)=\mu_0} for some \eqn{\lambda\in\Lambda} vs.
+\eqn{\mathrm{H}_1:\mu(\lambda)\neq\mu_0} for all \eqn{\lambda\in\Lambda},
+where \eqn{\{\mu(\lambda):\lambda\in\Lambda\}} is a family of centers. \cr
 The default loss matrix results in a decision whenever the posterior probability
 for one of the hypotheses is greater than 0.95 and otherwise is indeterminate.
 }

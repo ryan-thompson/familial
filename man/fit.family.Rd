@@ -7,8 +7,8 @@
 fit.family(
   x,
   w = rep(1, length(x)),
-  family = c("huber", "trimmed"),
-  scale.fun = weighted.mad,
+  family = "huber",
+  spread.fun = weighted.mad,
   eps = .Machine$double.eps
 )
 }
@@ -17,21 +17,20 @@ fit.family(
 
 \item{w}{a numeric vector of weights}
 
-\item{family}{the location family; currently allows 'huber' for Huber family (default) or
-'trimmed' for trimmed mean family}
+\item{family}{the location family; currently only allows 'huber' for Huber family}
 
-\item{scale.fun}{a function used to estimate the scale of \code{x} for the Huber family; ensures
-that the tuning parameter is comparable across variables with different scales}
+\item{spread.fun}{a function used for the spread of \code{x} in the Huber family; ensures
+that the results are comparable across variables}
 
 \item{eps}{a numerical tolerance parameter}
 }
 \value{
 An object of class \code{fit.family}; a data frame with the following columns:
 \item{mu.hat}{the fitted values}
-\item{lambda}{the indexing parameter}
+\item{lambda}{the thresholding parameter}
 }
 \description{
-Fits the Huber or trimmed mean location families.
+Fits a family of centers.
 }
 \examples{
 fit <- fit.family(MASS::galaxies)

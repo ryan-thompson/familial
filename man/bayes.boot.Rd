@@ -9,8 +9,8 @@ bayes.boot(x, fun, nboot = 1000, cluster = NULL, ...)
 \arguments{
 \item{x}{a numeric vector to be passed as the first argument to \code{fun}}
 
-\item{fun}{the function to bootstrap; must accept data \code{x} and weights \code{w}, and return
-a data frame}
+\item{fun}{the function to bootstrap; must accept data \code{x} and weights \code{w} (in that
+order), and return a data frame}
 
 \item{nboot}{the number of bootstraps to perform}
 
@@ -21,7 +21,7 @@ a data frame}
 }
 \value{
 An object of class \code{bayes.boot}; a data frame with the following columns:
-\item{boot.id}{the bootstrap iteration}
+\item{boot.id}{the bootstrap iteration index}
 \item{...}{any columns returned by \code{fun}}
 }
 \description{

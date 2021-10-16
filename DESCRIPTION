@@ -5,9 +5,9 @@ Version: 0.1.0
 Author: Ryan Thompson
 Maintainer: Ryan Thompson <ryan.thompson@monash.edu>
 Description: Provides functionality for testing familial hypotheses. Currently supports tests of 
-    center via the Huber or trimmed mean families of location parameters. Testing is carried out 
-    using the Bayesian bootstrap. One- and two-sample tests are supported, as are directional tests. 
-    Methods for visualizing output are provided.
+    the Huber family of centers. Testing is carried out using the Bayesian bootstrap. One- and 
+    two-sample tests are supported, as are directional tests. Methods for visualizing output are 
+    provided.
 URL: https://github.com/ryan-thompson/familial
 BugReports: https://github.com/ryan-thompson/familial/issues
 License: GPL-3

@@ -15,16 +15,16 @@ knitr::opts_chunk$set(echo = T)
 
 ## Overview
 
-An R package for testing familial hypotheses. A paper describing familial hypothesis is forthcoming. Briefly, they are statements of the form:
+An R package for familial inference. A paper describing familial inference is forthcoming. Briefly, this package provides tests for hypotheses of the form
 $$
 \begin{aligned}
 &\mathrm{H}_0:\mu(\lambda)=\mu_0\text{ for some }\lambda\in\Lambda \\
 &\mathrm{H}_1:\mu(\lambda)\neq\mu_0\text{ for all }\lambda\in\Lambda,
 \end{aligned}
 $$
-where $\{\mu(\lambda):\lambda\in\Lambda\}$ is a family of population parameters, e.g., different centers of a distribution induced by the Huber loss function with parameter $\lambda$. In contrast to classic statistical tests such as the $t$ or sign test for the mean or median, familial tests do not require the user to choose a specific version of center, making them quite robust. See the package [vignette](vignette.pdf) for illustrations.
+where $\{\mu(\lambda):\lambda\in\Lambda\}$ is a family of centers, e.g., that induced by the Huber loss function with parameter $\lambda$. In contrast to classic statistical tests such as the $t$ or sign tests for the mean or median, familial tests do not depend on a single (sometimes arbitrarily chosen) measure of center. See the package [vignette](vignette.pdf) for illustrations.
 
-Presently, `familial` supports tests of center via the Huber or the trimmed mean families of location parameters. Both of these families include the mean and median. Testing is carried out using a Bayesian approach whereby the posterior probabilities of the competing hypotheses $\mathrm{H}_0$ and $\mathrm{H}_1$ are computed using the Bayesian bootstrap. One- and two-sample tests are supported, as are directional tests. Methods for visualizing output are provided.
+Presently, `familial` supports tests of the Huber family of centers, which includes the mean and median. Testing is carried out using a Bayesian approach whereby the posterior probabilities of the competing hypotheses $\mathrm{H}_0$ and $\mathrm{H}_1$ are computed using the Bayesian bootstrap. One- and two-sample tests are supported, as are directional tests. Methods for visualizing output are provided.
 
 ## Installation
 

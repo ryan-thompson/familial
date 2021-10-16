@@ -6,25 +6,24 @@
 #'
 #' @author Ryan Thompson <ryan.thompson@monash.edu>
 #'
-#' @description Fits the Huber or trimmed mean location families.
+#' @description Fits a family of centers.
 #'
 #' @param x a numeric vector of data
 #' @param w a numeric vector of weights
-#' @param family the location family; currently allows 'huber' for Huber family (default) or
-#' 'trimmed' for trimmed mean family
-#' @param scale.fun a function used to estimate the scale of \code{x} for the Huber family; ensures
-#' that the tuning parameter is comparable across variables with different scales
+#' @param family the location family; currently only allows 'huber' for Huber family
+#' @param spread.fun a function used for the spread of \code{x} in the Huber family; ensures
+#' that the results are comparable across variables
 #' @param eps a numerical tolerance parameter
 #'
 #' @return An object of class \code{fit.family}; a data frame with the following columns:
 #' \item{mu.hat}{the fitted values}
-#' \item{lambda}{the indexing parameter}
+#' \item{lambda}{the thresholding parameter}
 #'
 #' @example R/examples/example-fit-family.R
 #'
 #' @export
 
-fit.family <- \(x, w = rep(1, length(x)), family = c('huber', 'trimmed'), scale.fun = weighted.mad,
+fit.family <- \(x, w = rep(1, length(x)), family = 'huber', spread.fun = weighted.mad,
                 eps = .Machine$double.eps) {
 
   # Check arguments are valid
@@ -41,12 +40,12 @@ fit.family <- \(x, w = rep(1, length(x)), family = c('huber', 'trimmed'), scale.
   # Compute family
   if (family == 'huber') {
     result <- huber.family(x, w, median., eps)
-    scale.x <- scale.fun(x, w)
-    if (is.nan(scale.x) | scale.x == 0) scale.x <- 1 # Handles constant x
-    result$lambda <- result$lambda / scale.x
-  } else if (family == 'trimmed') {
-    result <- trimmed.family(x, w, eps)
-  }
+    spread.x <- spread.fun(x, w)
+    if (is.nan(spread.x) | spread.x == 0) spread.x <- 1 # Handles constant x
+    result$lambda <- result$lambda / spread.x
+  } #else if (family == 'trimmed') {
+  #   result <- trimmed.family(x, w, eps)
+  # }
 
   # Return result
   class(result) <- c('fit.family', 'data.frame')
@@ -60,59 +59,51 @@ fit.family <- \(x, w = rep(1, length(x)), family = c('huber', 'trimmed'), scale.
 # Huber family
 huber.family <- \(x, w, med, eps) {
   n <- length(x)
-  w <- w / sum(w) * n
-  x <- x - med
-  s <- sign(x)
+  w <- w / sum(w)
+  s <- sign(x - med)
   lambda <- mu <- numeric(n)
-  mu[1] <- mean(x * w)
+  mu[1] <- sum(x * w)
   lambda[1] <- max(abs(x - mu[1]))
   for (m in 2:n) {
-    r <- x - mu[m - 1]
-    d <- lambda[m - 1] - s * r
-    L <- which(d ^ 2 < eps)
-    if (length(L) == n) {
-      m <- m - 1
-      break
-    }
-    eta <- 1 + s * sum(s[L] * w[L]) / sum(w[- L])
-    gamma <- min(d[- L] / eta[- L])
-    x[L] <- x[L] - s[L] * gamma * eta[L]
-    mu[m] <- mean(x * w)
+    d <- lambda[m - 1] - pmin(s * (x - mu[m - 1]), lambda[m - 1])
+    A <- d ^ 2 < eps
+    if (sum(A) == n) {m <- m - 1; break}
+    eta <- - sum(w[A] * s[A]) / sum(w[!A])
+    gamma <- min(d[!A] / (1 - s[!A] * eta))
+    mu[m] <- mu[m - 1] + gamma * eta
     lambda[m] <- lambda[m - 1] - gamma
   }
-  data.frame(mu.hat = mu[1:m] + med, lambda = lambda[1:m])
+  data.frame(mu.hat = mu[1:m], lambda = lambda[1:m])
 }
 
-# Trimmed mean family
-trimmed.family <- \(x, w, eps) {
-  n <- length(x)
-  id <- order(x)
-  w <- w / sum(w)
-  w.o <- w[id]
-  x.w.o <- x[id] * w.o
-  cs.w <- cumsum(w.o)
-  lambda <- mu <- numeric(n)
-  lambda[1] <- 0.5
-  A <- which(cs.w == lambda[1])
-  B <- which.min(cs.w <= lambda[1])
-  active <- c(A, B)
-  mu[1] <- sum(x.w.o[active]) / sum(w.o[active])
-  if (length(A) == 0) A <- c(A, n + 1)
-  for (m in 2:n) {
-    gamma <- min(c(abs(lambda[m - 1] - cs.w[- A]), abs(1 - lambda[m - 1] - cs.w[- A])))
-    lambda[m] <- lambda[m - 1] - gamma
-    A <- which((cs.w + eps >= lambda[m]) + (cs.w - eps <= 1 - lambda[m]) == 2)
-    if (length(A) == n) {
-      m <- m - 1
-      break
-    }
-    max.A <- max(A)
-    if ((1 - lambda[m] - cs.w[max.A]) ^ 2 <= eps) B <- max.A + 1
-    active <- c(A, B)
-    mu[m] <- sum(x.w.o[active]) / sum(w.o[active])
-  }
-  data.frame(mu.hat = mu[m:1], lambda = lambda[m:1])
-}
+# # Trimmed mean family
+# trimmed.family <- \(x, w, eps) {
+#   n <- length(x)
+#   id <- order(x)
+#   w <- w / sum(w)
+#   w <- w[id]
+#   xw <- x[id] * w
+#   cs <- cumsum(w)
+#   lambda <- mu <- numeric(n)
+#   lambda[1] <- 0.5
+#   A <- which(cs == lambda[1])
+#   s <- which.min(cs <= lambda[1])
+#   As <- c(A, s)
+#   mu[1] <- sum(xw[As]) / sum(w[As])
+#   if (length(A) == 0) A <- c(A, n + 1) # Stops cs[- A] failing when A is empty
+#   for (m in 2:n) {
+#     gamma <- min(c(abs(lambda[m - 1] - cs[- A]), abs(1 - lambda[m - 1] - cs[- A])))
+#     lambda[m] <- lambda[m - 1] - gamma
+#     A <- which((lambda[m] - eps <= cs) & (cs - eps <= 1 - lambda[m]))
+#     if (length(A) == n) {m <- m - 1; break}
+#     maxA <- max(A)
+#     if ((1 - lambda[m] - cs[maxA]) ^ 2 <= eps) s <- maxA + 1
+#     As <- c(A, s)
+#     mu[m] <- sum(xw[As]) / sum(w[As])
+#   }
+#   data.frame(mu.hat = mu[m:1], lambda = lambda[m:1])
+# }
+
 # https://stats.stackexchange.com/questions/16528/is-rs-trimmed-means-function-biased
 
 # Compare weighted version against:
@@ -163,24 +154,19 @@ plot.fit.family <- \(x, y = NULL, ...) {
 
   # Interpolate x and y at same lambda sequence
   if (!is.null(y)) {
-    if (attributes(x)$family != attributes(y)$family) {
-      stop('x and y must belong to the same family')
-    }
-    if (attributes(x)$family == 'huber') {
-      int.method <- 'linear'
-    } else if (attributes(x)$family == 'trimmed') {
-      int.method <- 'constant'
-    }
+    # if (attributes(x)$family != attributes(y)$family) {
+    #   stop('x and y must belong to the same family')
+    # }
     family <- attributes(x)$family
     mean.diff <- attributes(x)$mean - attributes(y)$mean
     median.diff <- attributes(x)$median - attributes(y)$median
     lambda <- union(x$lambda, y$lambda)
     x <- stats::approx(x$lambda, x$mu.hat, lambda, yleft = x$mu.hat[which.min(x$lambda)],
                        yright = x$mu.hat[which.max(x$lambda)],
-                       method = ifelse(length(x$mu.hat) <= 1, 'constant', int.method))
+                       method = ifelse(length(x$mu.hat) > 1, 'linear', 'constant'))
     y <- stats::approx(y$lambda, y$mu.hat, lambda, yleft = y$mu.hat[which.min(y$lambda)],
                        yright = y$mu.hat[which.max(y$lambda)],
-                       method = ifelse(length(y$mu.hat) <= 1, 'constant', int.method))
+                       method = ifelse(length(y$mu.hat) > 1, 'linear', 'constant'))
     x <- data.frame(mu.hat = x$y - y$y, lambda = lambda)
     attributes(x)$family <- family
     attributes(x)$mean <- mean.diff
@@ -195,8 +181,7 @@ plot.fit.family <- \(x, y = NULL, ...) {
   x <- rbind(x, x.mean, x.median)
   x$center <- factor(x$center, c(family.name, 'Mean', 'Median'))
   ggplot2::ggplot(x, ggplot2::aes_string('lambda', 'mu.hat', linetype = 'center')) +
-    {if (attributes(x)$family == 'huber') ggplot2::geom_line()} +
-    {if (attributes(x)$family == 'trimmed') ggplot2::geom_step()} +
+    ggplot2::geom_line() +
     ggplot2::xlab(expression(lambda)) +
     ggplot2::ylab(ifelse(is.null(y), expression(hat(mu)(lambda)),
                          expression(hat(mu)[X](lambda)-hat(mu)[Y](lambda)))) +

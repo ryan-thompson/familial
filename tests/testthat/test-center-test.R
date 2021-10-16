@@ -18,7 +18,7 @@ test_that('indeterminate result when x and y are distributed same and H0 is a po
   x <- rnorm(100)
   y <- rnorm(100)
   expect_equal(center.test(x, y, family = 'huber')$decision, 'indeterminate')
-  expect_equal(center.test(x, y, family = 'trimmed')$decision, 'indeterminate')
+  # expect_equal(center.test(x, y, family = 'trimmed')$decision, 'indeterminate')
 })
 
 test_that('H0 is accepted when x and y are distributed different and H0 is an interval', {
@@ -26,7 +26,7 @@ test_that('H0 is accepted when x and y are distributed different and H0 is an in
   x <- rnorm(100)
   y <- rnorm(100)
   expect_equal(center.test(x, y, family = 'huber', mu = c(- 1, 1))$decision, 'H0')
-  expect_equal(center.test(x, y, family = 'trimmed', mu = c(- 1, 1))$decision, 'H0')
+  # expect_equal(center.test(x, y, family = 'trimmed', mu = c(- 1, 1))$decision, 'H0')
 })
 
 test_that('H0 is rejected when x and y are distributed different but paired', {
@@ -34,7 +34,7 @@ test_that('H0 is rejected when x and y are distributed different but paired', {
   x <- rnorm(100)
   y <- 0.5 * x + 0.5 * rnorm(100, mean = 1)
   expect_equal(center.test(x, y, family = 'huber', paired = TRUE)$decision, 'H1')
-  expect_equal(center.test(x, y, family = 'trimmed', paired = TRUE)$decision, 'H1')
+  # expect_equal(center.test(x, y, family = 'trimmed', paired = TRUE)$decision, 'H1')
 })
 
 test_that('H0 with null set (-Inf, 0) or (0, Inf) matches result for a one-sided test', {
@@ -72,8 +72,6 @@ test_that('print function returns output', {
 test_that('plot function returns a plot', {
   set.seed(123)
   x <- rnorm(100)
-  path <- center.test(x, family = 'huber')
-  expect_s3_class(plot(path), 'ggplot')
-  path <- center.test(x, family = 'trimmed')
+  path <- center.test(x)
   expect_s3_class(plot(path), 'ggplot')
 })

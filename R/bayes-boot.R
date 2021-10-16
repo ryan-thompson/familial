@@ -9,15 +9,15 @@
 #' @description Performs a Bayesian bootstrap for a statistic defined via a suitable function.
 #'
 #' @param x a numeric vector to be passed as the first argument to \code{fun}
-#' @param fun the function to bootstrap; must accept data \code{x} and weights \code{w}, and return
-#' a data frame
+#' @param fun the function to bootstrap; must accept data \code{x} and weights \code{w} (in that
+#' order), and return a data frame
 #' @param nboot the number of bootstraps to perform
 #' @param cluster an optional cluster for running bootstraps in parallel; must be set up using
 #' \code{parallel::makeCluster}
 #' @param ... any other arguments for \code{fun}
 #'
 #' @return An object of class \code{bayes.boot}; a data frame with the following columns:
-#' \item{boot.id}{the bootstrap iteration}
+#' \item{boot.id}{the bootstrap iteration index}
 #' \item{...}{any columns returned by \code{fun}}
 #'
 #' @example R/examples/example-bayes-boot.R

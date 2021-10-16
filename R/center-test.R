@@ -6,12 +6,11 @@
 #'
 #' @author Ryan Thompson <ryan.thompson@monash.edu>
 #'
-#' @description Performs a one-sample or two-sample test for a location family.
+#' @description Performs a one- or two-sample test for a family of centers.
 #'
 #' @param x a numeric vector of data
 #' @param y an optional numeric vector of data
-#' @param family the location family; currently allows 'huber' for Huber family (default) or
-#' 'trimmed' for trimmed mean family
+#' @param family the family of centers; currently only allows 'huber' for Huber family
 #' @param alternative the form of the alternative hypothesis; must be one of 'two.sided' (default),
 #' 'greater', or 'less'
 #' @param mu the null value of the center for a one-sample test, or the
@@ -25,7 +24,7 @@
 #' \code{parallel::makeCluster}
 #' @param ... any other arguments
 #'
-#' @return A list with the following components:
+#' @return An object of class \code{center.test}; a list with the following components:
 #' \item{expected.loss}{the expected loss, calculated by post-multiplying \code{loss} with
 #' \code{prob}}
 #' \item{decision}{the optimal decision given the expected loss}
@@ -38,9 +37,9 @@
 #' \item{family}{the \code{family} that was supplied}
 #'
 #' @details Uses the Bayesian bootstrap to compute posterior probabilities for the hypotheses
-#' \eqn{H_0:\mu_\lambda=\mu_0} for some \eqn{\lambda\in\Lambda} and
-#' \eqn{H_1:\mu_\lambda\neq\mu_0} for all \eqn{\lambda\in\Lambda},
-#' where \eqn{\mu_\lambda} (\eqn{\lambda\in\Lambda}) is a family of centers. \cr
+#' \eqn{\mathrm{H}_0:\mu(\lambda)=\mu_0} for some \eqn{\lambda\in\Lambda} vs.
+#' \eqn{\mathrm{H}_1:\mu(\lambda)\neq\mu_0} for all \eqn{\lambda\in\Lambda},
+#' where \eqn{\{\mu(\lambda):\lambda\in\Lambda\}} is a family of centers. \cr
 #' The default loss matrix results in a decision whenever the posterior probability
 #' for one of the hypotheses is greater than 0.95 and otherwise is indeterminate.
 #'
@@ -48,9 +47,8 @@
 #'
 #' @export
 
-center.test <- \(x, y = NULL, family = c('huber', 'trimmed'),
-                 alternative = c('two.sided', 'less', 'greater'), mu = 0, paired = FALSE,
-                 nboot = 1000, loss = NULL, cluster = NULL, ...) {
+center.test <- \(x, y = NULL, family = 'huber',  alternative = c('two.sided', 'less', 'greater'),
+                 mu = 0, paired = FALSE, nboot = 1000, loss = NULL, cluster = NULL, ...) {
 
   # Check arguments are valid
   family <- match.arg(family)
@@ -88,21 +86,16 @@ center.test <- \(x, y = NULL, family = c('huber', 'trimmed'),
     interpolate <- \(b) {
       boot.b <- boot[boot$boot.id == b, ]
       lambda <- unique(boot.b$lambda)
-      if (family == 'huber') {
-        int.method <- 'linear'
-      } else if (family == 'trimmed') {
-        int.method = 'constant'
-      }
       x.b <- boot.b[boot.b$var == 'x', ]
       y.b <- boot.b[boot.b$var == 'y', ]
       x.b <- stats::approx(x.b$lambda, x.b$mu.hat, lambda,
                            yleft = x.b$mu.hat[which.min(x.b$lambda)],
                            yright = x.b$mu.hat[which.max(x.b$lambda)],
-                           method = ifelse(length(x.b$mu.hat) <= 1, 'constant', int.method))
+                           method = ifelse(length(x.b$mu.hat) > 1, 'linear', 'constant'))
       y.b <- stats::approx(y.b$lambda, y.b$mu.hat, lambda,
                            yleft = y.b$mu.hat[which.min(y.b$lambda)],
                            yright = y.b$mu.hat[which.max(y.b$lambda)],
-                           method = ifelse(length(y.b$mu.hat) <= 1, 'constant', int.method))
+                           method = ifelse(length(y.b$mu.hat) > 1, 'linear', 'constant'))
       data.frame(boot.id = b, mu.hat = x.b$y - y.b$y, lambda = x.b$x)
     }
     boot <- lapply(1:nboot, interpolate)
@@ -160,7 +153,7 @@ center.test <- \(x, y = NULL, family = c('huber', 'trimmed'),
 
 print.center.test <- \(x, ...) {
   cat('-----------------------------------------------\n')
-  cat('familial test of centers with', x$family, 'family\n')
+  cat('familial test of centers with', attributes(x)$family, 'family\n')
   cat('-----------------------------------------------\n')
   cat('mu =', x$mu, '\n')
   cat('posterior probabilities: \n')
@@ -200,16 +193,11 @@ plot.center.test <- \(x, band = c(0.50, 0.75, 0.95), ninterp = 25, ...) {
   # Interpolate bootstrap paths at same lambda sequence
   lambda <- seq(min(x$boot$lambda), max(x$boot$lambda), length.out = ninterp)
   interpolate <- \(b) {
-    if (attributes(x)$family == 'huber') {
-      int.method <- 'linear'
-    } else if (attributes(x)$family == 'trimmed') {
-      int.method <- 'constant'
-    }
     x.b <- x$boot[x$boot$boot.id == b, ]
     x.b <- stats::approx(x.b$lambda, x.b$mu.hat, lambda,
                          yleft = x.b$mu.hat[which.min(x.b$lambda)],
                          yright = x.b$mu.hat[which.max(x.b$lambda)],
-                         method = ifelse(length(x.b$mu.hat) <= 1, 'constant', int.method))
+                         method = ifelse(length(x.b$mu.hat) > 1, 'linear', 'constant'))
     data.frame(boot.id = b, mu.hat = x.b$y, lambda = x.b$x)
   }
   boot <- lapply(1:max(x$boot$boot.id), interpolate)
