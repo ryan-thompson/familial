@@ -60,8 +60,8 @@ test_that('first and last points of huber family are mean and median for even sa
   expect_equal(tail(path$mu, 1), median(x))
   w <- abs(rnorm(100))
   path.w <- fit.family(x, w, family = 'huber')
-  expect_equal(head(path.w$mu, 1), matrixStats::weightedMean(x, w))
-  expect_equal(tail(path.w$mu, 1), matrixStats::weightedMedian(x, w, interpolate = F))
+  expect_equal(head(path.w$mu, 1), weighted.mean(x, w))
+  expect_equal(tail(path.w$mu, 1), weighted.median(x, w))
 })
 
 test_that('first and last points of huber family are mean and median for odd samples', {
@@ -72,8 +72,8 @@ test_that('first and last points of huber family are mean and median for odd sam
   expect_equal(tail(path$mu, 1), median(x))
   w <- abs(rnorm(99))
   path.w <- fit.family(x, w, family = 'huber')
-  expect_equal(head(path.w$mu, 1), matrixStats::weightedMean(x, w))
-  expect_equal(tail(path.w$mu, 1), matrixStats::weightedMedian(x, w, interpolate = F))
+  expect_equal(head(path.w$mu, 1), weighted.mean(x, w))
+  expect_equal(tail(path.w$mu, 1), weighted.median(x, w))
 })
 
 test_that('first and last points of huber family are mean and median for samples with repeated observations', {
@@ -85,8 +85,8 @@ test_that('first and last points of huber family are mean and median for samples
   expect_equal(tail(path$mu, 1), median(x))
   w <- abs(rnorm(100))
   path.w <- fit.family(x, w, family = 'huber')
-  expect_equal(head(path.w$mu, 1), matrixStats::weightedMean(x, w))
-  expect_equal(tail(path.w$mu, 1), matrixStats::weightedMedian(x, w, interpolate = F))
+  expect_equal(head(path.w$mu, 1), weighted.mean(x, w))
+  expect_equal(tail(path.w$mu, 1), weighted.median(x, w))
 })
 
 test_that('first and last points of trimmed family are mean and median for even samples', {
@@ -97,8 +97,8 @@ test_that('first and last points of trimmed family are mean and median for even 
   expect_equal(tail(path$mu, 1), median(x))
   w <- abs(rnorm(100))
   path.w <- fit.family(x, w, family = 'trimmed')
-  expect_equal(head(path.w$mu, 1), matrixStats::weightedMean(x, w))
-  expect_equal(tail(path.w$mu, 1), matrixStats::weightedMedian(x, w, interpolate = F))
+  expect_equal(head(path.w$mu, 1), weighted.mean(x, w))
+  expect_equal(tail(path.w$mu, 1), weighted.median(x, w))
 })
 
 test_that('first and last points of trimmed family are mean and median for odd samples', {
@@ -109,8 +109,8 @@ test_that('first and last points of trimmed family are mean and median for odd s
   expect_equal(tail(path$mu, 1), median(x))
   w <- abs(rnorm(99))
   path.w <- fit.family(x, w, family = 'trimmed')
-  expect_equal(head(path.w$mu, 1), matrixStats::weightedMean(x, w))
-  expect_equal(tail(path.w$mu, 1), matrixStats::weightedMedian(x, w, interpolate = F))
+  expect_equal(head(path.w$mu, 1), weighted.mean(x, w))
+  expect_equal(tail(path.w$mu, 1), weighted.median(x, w))
 })
 
 test_that('first and last points of trimmmed family are mean and median for samples with repeated
@@ -123,6 +123,6 @@ test_that('first and last points of trimmmed family are mean and median for samp
   expect_equal(tail(path$mu, 1), median(x))
   w <- abs(rnorm(100))
   path.w <- fit.family(x, w, family = 'trimmed')
-  expect_equal(head(path.w$mu, 1), matrixStats::weightedMean(x, w))
-  expect_equal(tail(path.w$mu, 1), matrixStats::weightedMedian(x, w, interpolate = F))
+  expect_equal(head(path.w$mu, 1), weighted.mean(x, w))
+  expect_equal(tail(path.w$mu, 1), weighted.median(x, w))
 })

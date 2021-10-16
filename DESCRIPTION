@@ -14,7 +14,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 4.1.0)
-Imports: parallel, matrixStats, ggplot2, DepthProc
+Imports: parallel, ggplot2, DepthProc
 RoxygenNote: 7.1.2
 Suggests: testthat, knitr, rmarkdown, MASS
 VignetteBuilder: knitr

@@ -19,7 +19,15 @@
 #' @rdname weighted
 #' @export
 
-weighted.median <- \(x, w) matrixStats::weightedMedian(x, w, interpolate = all(w == w[1]))
+weighted.median <- \(x, w) {
+  w <- w / sum(w)
+  id <- order(x)
+  x <- x[id]
+  w <- w[id]
+  cs <- cumsum(w)
+  keep <- c(which(cs == 0.5), which.min(cs <= 0.5))
+  sum(x[keep] * w[keep]) / sum(w[keep])
+}
 
 #' @rdname weighted
 #' @export
