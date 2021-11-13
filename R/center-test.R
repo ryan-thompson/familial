@@ -29,7 +29,7 @@
 #' \code{prob}}
 #' \item{decision}{the optimal decision given the expected loss}
 #' \item{loss}{the loss matrix}
-#' \item{prob}{the posterior probabilities of the null and alternative}
+#' \item{prob}{the estimated posterior probabilities of the null and alternative}
 #' \item{boot}{the bootstrap output from \code{bayes.boot}}
 #' \item{x}{the \code{x} that was supplied}
 #' \item{y}{the \code{y} that was supplied}

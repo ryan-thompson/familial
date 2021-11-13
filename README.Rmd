@@ -17,14 +17,11 @@ knitr::opts_chunk$set(echo = T)
 
 An R package for familial inference. A paper describing familial inference is forthcoming. Briefly, this package provides tests for hypotheses of the form
 $$
-\begin{aligned}
-&\mathrm{H}_0:\mu(\lambda)=\mu_0\text{ for some }\lambda\in\Lambda \\
-&\mathrm{H}_1:\mu(\lambda)\neq\mu_0\text{ for all }\lambda\in\Lambda,
-\end{aligned}
+\mathrm{H}_0:\mu(\lambda)=\mu_0\text{ for some }\lambda\in\Lambda\quad\text{vs.}\quad\mathrm{H}_1:\mu(\lambda)\neq\mu_0\text{ for all }\lambda\in\Lambda,
 $$
-where $\{\mu(\lambda):\lambda\in\Lambda\}$ is a family of centers, e.g., that induced by the Huber loss function with parameter $\lambda$. In contrast to classic statistical tests such as the $t$ or sign tests for the mean or median, familial tests do not depend on a single (sometimes arbitrarily chosen) measure of center. See the package [vignette](vignette.pdf) for illustrations.
+where $\{\mu(\lambda):\lambda\in\Lambda\}$ is a family of centers, e.g., that induced by the Huber loss function with parameter $\lambda$. In contrast to classic statistical tests such as the $t$ or sign tests for the mean or median, familial tests do not depend on a single (sometimes arbitrarily chosen) center. See the package [vignette](vignette.pdf) for illustrations.
 
-Presently, `familial` supports tests of the Huber family of centers, which includes the mean and median. Testing is carried out using a Bayesian approach whereby the posterior probabilities of the competing hypotheses $\mathrm{H}_0$ and $\mathrm{H}_1$ are computed using the Bayesian bootstrap. One- and two-sample tests are supported, as are directional tests. Methods for visualizing output are provided.
+Presently, `familial` supports tests of the Huber family of centers, which includes the mean and median. Testing is carried out using a Bayesian approach whereby the posterior probabilities of the competing hypotheses $\mathrm{H}_0$ and $\mathrm{H}_1$ are from the Bayesian bootstrap. One- and two-sample tests are supported, as are directional tests. Methods for visualizing output are provided.
 
 ## Installation
 

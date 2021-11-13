@@ -20,27 +20,24 @@ knitr::opts_chunk$set(
 
 `familal` is an R package for testing familial hypotheses as described at [insert link to paper]. Briefly, familial hypotheses are statements of the form
 $$
-\begin{split}
-&\mathrm{H}_0:\mu(\lambda)=\mu_0\text{ for some }\lambda\in\Lambda \\
-&\mathrm{H}_1:\mu(\lambda)\neq\mu_0\text{ for all }\lambda\in\Lambda,
-\end{split}
+\mathrm{H}_0:\mu(\lambda)=\mu_0\text{ for some }\lambda\in\Lambda\quad\text{vs.}\quad\mathrm{H}_1:\mu(\lambda)\neq\mu_0\text{ for all }\lambda\in\Lambda,
 $$
 where $\{\mu(\lambda):\lambda\in\Lambda\}$ is a family of centers. Presently, `familial` supports tests of the Huber family of centers. The mean and median are members of this family.
 
 To test familial hypotheses, `familial` uses the Bayesian bootstrap. The Bayesian bootstrap uses weights $w_1^{(b)},\ldots,w_n^{(b)}$ ($b=1,\ldots,B$) from a uniform Dirichlet distribution in the computation
 $$
-\hat{\mu}^{(b)}(\lambda):=\underset{\mu\in\mathbb{R}}{\operatorname{arg~min}}\sum_{i=1}^nw_i^{(b)}l_\lambda\left(\frac{x_i-\mu}{\sigma}\right),
+\hat{\mu}^{(b)}(\lambda):=\underset{\mu\in\mathbb{R}}{\operatorname{arg~min}}\sum_{i=1}^nw_i^{(b)}\ell_\lambda\left(\frac{x_i-\mu}{\sigma}\right),
 $$
 where the Huber loss function $l_\lambda$ is defined as
 $$
-l_\lambda(z):=
+\ell_\lambda(z):=
 \begin{cases}
-\frac{1}{2}z^2 & \text{if } |z|<\lambda \\
-\lambda|z|-\frac{1}{2}\lambda^2 & \text{otherwise}.
+\frac{1}{2}z^2, & \text{if } |z|<\lambda, \\
+\lambda|z|-\frac{1}{2}\lambda^2, & \text{otherwise}.
 \end{cases}
 $$
 
-The above minimization is solved for all values of $\lambda\in\Lambda=(0,\infty)$ for $b=1,\ldots,B$. The proportion of times that $\{\hat{\mu}^{(b)}(\lambda):\lambda\in\Lambda\}_{b=1}^B$ contains the null value $\mu_0$ represents the posterior probability of $\mathrm{H}_0$ being true. To map this probability to a decision (accept, reject, or indeterminate), we assign a loss to making an incorrect decision. The decision that minimizes the expected loss under the posterior distribution is the optimal one.
+The above minimization is solved for all values of $\lambda\in\Lambda=(0,\infty)$ for $b=1,\ldots,B$. The proportion of times that $\{\hat{\mu}^{(b)}(\lambda):\lambda\in\Lambda\}_{b=1}^B$ contains the null value $\mu_0$ represents the estimated posterior probability of $\mathrm{H}_0$ being true. To map this probability to a decision (accept, reject, or indeterminate), we assign a loss to making an incorrect decision. The decision that minimizes the expected loss under the posterior distribution is the optimal one.
 
 ## One-sample tests
 
@@ -52,7 +49,7 @@ x <- MASS::galaxies
 test <- center.test(x, mu = 21000)
 print(test)
 ```
-The output above shows the posterior probabilities for the events $\mathrm{H}_0$ and $\mathrm{H}_1$. The 54.2% probability assigned to $\mathrm{H}_0$ means that the Huber family contained a center equal to 21,000 km/sec in 54.2% of bootstraps. Because neither of the above probabilities is much larger than the other, the test results in an indeterminate outcome. By default, the function will return an indeterminate result when neither $\mathrm{H}_0$ nor $\mathrm{H}_1$ have probability at least 0.95. This choice of threshold is analogous to using a frequentist significance level of 0.05.
+The output above shows the estimated posterior probabilities for the events $\mathrm{H}_0$ and $\mathrm{H}_1$. The 54.2% probability assigned to $\mathrm{H}_0$ means that the Huber family contained a center equal to 21,000 km/sec in 54.2% of bootstraps. Because neither of the above probabilities is much larger than the other, the test results in an indeterminate outcome. By default, the function will return an indeterminate result when neither $\mathrm{H}_0$ nor $\mathrm{H}_1$ have probability at least 0.95. This choice of threshold is analogous to using a frequentist significance level of 0.05.
 
 It is  possible to visualize the posterior using a functional boxplot via the `plot` function.
 ```{r}

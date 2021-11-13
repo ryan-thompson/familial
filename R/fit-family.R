@@ -11,8 +11,8 @@
 #' @param x a numeric vector of data
 #' @param w a numeric vector of weights
 #' @param family the location family; currently only allows 'huber' for Huber family
-#' @param spread.fun a function used for the spread of \code{x} in the Huber family; ensures
-#' that the results are comparable across variables
+#' @param spread.fun a function used for the spread of \code{x}; must accept data \code{x} and
+#' weights \code{w} (in that order), and return a numeric
 #' @param eps a numerical tolerance parameter
 #'
 #' @return An object of class \code{fit.family}; a data frame with the following columns:
@@ -43,9 +43,7 @@ fit.family <- \(x, w = rep(1, length(x)), family = 'huber', spread.fun = weighte
     spread.x <- spread.fun(x, w)
     if (is.nan(spread.x) | spread.x == 0) spread.x <- 1 # Handles constant x
     result$lambda <- result$lambda / spread.x
-  } #else if (family == 'trimmed') {
-  #   result <- trimmed.family(x, w, eps)
-  # }
+  }
 
   # Return result
   class(result) <- c('fit.family', 'data.frame')
@@ -75,58 +73,6 @@ huber.family <- \(x, w, med, eps) {
   }
   data.frame(mu.hat = mu[1:m], lambda = lambda[1:m])
 }
-
-# # Trimmed mean family
-# trimmed.family <- \(x, w, eps) {
-#   n <- length(x)
-#   id <- order(x)
-#   w <- w / sum(w)
-#   w <- w[id]
-#   xw <- x[id] * w
-#   cs <- cumsum(w)
-#   lambda <- mu <- numeric(n)
-#   lambda[1] <- 0.5
-#   A <- which(cs == lambda[1])
-#   s <- which.min(cs <= lambda[1])
-#   As <- c(A, s)
-#   mu[1] <- sum(xw[As]) / sum(w[As])
-#   if (length(A) == 0) A <- c(A, n + 1) # Stops cs[- A] failing when A is empty
-#   for (m in 2:n) {
-#     gamma <- min(c(abs(lambda[m - 1] - cs[- A]), abs(1 - lambda[m - 1] - cs[- A])))
-#     lambda[m] <- lambda[m - 1] - gamma
-#     A <- which((lambda[m] - eps <= cs) & (cs - eps <= 1 - lambda[m]))
-#     if (length(A) == n) {m <- m - 1; break}
-#     maxA <- max(A)
-#     if ((1 - lambda[m] - cs[maxA]) ^ 2 <= eps) s <- maxA + 1
-#     As <- c(A, s)
-#     mu[m] <- sum(xw[As]) / sum(w[As])
-#   }
-#   data.frame(mu.hat = mu[m:1], lambda = lambda[m:1])
-# }
-
-# https://stats.stackexchange.com/questions/16528/is-rs-trimmed-means-function-biased
-
-# Compare weighted version against:
-# tm <- function(x, w, lambda) {
-#   n <- length(x)
-#   id <- order(x)
-#   w <- w / sum(w)
-#   w.o <- w[id]
-#   x.o <- x[id]
-#   cumsum_w <- cumsum_x <- wsumlambda <- 0
-#   for (i in 1:n) {
-#     cumsum_w <- cumsum_w + w.o[i]
-#     if (cumsum_w > lambda) {
-#       cumsum_x <- cumsum_x + x.o[i] * w.o[i]
-#       wsumlambda <- wsumlambda + w.o[i]
-#     }
-#     if (cumsum_w > 1 - lambda) break;
-#   }
-#   cumsum_x / wsumlambda
-# }
-
-# Compare unweighted version against:
-# mean(x, lambda = lambda)
 
 #==================================================================================================#
 # Plot function for fit.family object

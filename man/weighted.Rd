@@ -19,7 +19,7 @@ weighted.mad(x, w)
 A length-one numeric vector.
 }
 \description{
-Assorted weighted statistics unavailable in base R
+Assorted weighted statistics unavailable in base R.
 }
 \author{
 Ryan Thompson <ryan.thompson@monash.edu>

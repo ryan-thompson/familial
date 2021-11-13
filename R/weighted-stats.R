@@ -6,7 +6,7 @@
 #'
 #' @author Ryan Thompson <ryan.thompson@monash.edu>
 #'
-#' @description Assorted weighted statistics unavailable in base R
+#' @description Assorted weighted statistics unavailable in base R.
 #'
 #' @param x a numeric vector of data
 #' @param w a numeric vector of weights

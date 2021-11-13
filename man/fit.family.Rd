@@ -19,8 +19,8 @@ fit.family(
 
 \item{family}{the location family; currently only allows 'huber' for Huber family}
 
-\item{spread.fun}{a function used for the spread of \code{x} in the Huber family; ensures
-that the results are comparable across variables}
+\item{spread.fun}{a function used for the spread of \code{x}; must accept data \code{x} and
+weights \code{w} (in that order), and return a numeric}
 
 \item{eps}{a numerical tolerance parameter}
 }
