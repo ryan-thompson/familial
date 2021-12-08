@@ -3,6 +3,5 @@
 ^doc$
 ^Meta$
 ^README.Rmd
-^familial_0.1.0.pdf
-^vignette.pdf
 ^\.github$
+^cran-comments.md

@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-`familal` is an R package for testing familial hypotheses as described at [insert link to paper]. Briefly, familial hypotheses are statements of the form
+`familal` is an R package for testing familial hypotheses. Briefly, familial hypotheses are statements of the form
 $$
 \mathrm{H}_0:\mu(\lambda)=\mu_0\text{ for some }\lambda\in\Lambda\quad\text{vs.}\quad\mathrm{H}_1:\mu(\lambda)\neq\mu_0\text{ for all }\lambda\in\Lambda,
 $$

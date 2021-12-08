@@ -6,9 +6,8 @@
 
 ## Overview
 
-An R package for familial inference. A paper describing familial
-inference is forthcoming. Briefly, this package provides tests for
-hypotheses of the form
+An R package for familial inference. Briefly, this package provides
+tests for hypotheses of the form
 
 ![
 \\mathrm{H}\_0:\\mu(\\lambda)=\\mu_0\\text{ for some }\\lambda\\in\\Lambda\\quad\\text{vs.}\\quad\\mathrm{H}\_1:\\mu(\\lambda)\\neq\\mu_0\\text{ for all }\\lambda\\in\\Lambda,
@@ -24,8 +23,8 @@ with parameter
 In contrast to classic statistical tests such as the
 ![t](https://latex.codecogs.com/png.latex?t "t") or sign tests for the
 mean or median, familial tests do not depend on a single (sometimes
-arbitrarily chosen) center. See the package [vignette](vignette.pdf) for
-illustrations.
+arbitrarily chosen) center.
+<!-- See the package [vignette](vignette.pdf) for illustrations. -->
 
 Presently, `familial` supports tests of the Huber family of centers,
 which includes the mean and median. Testing is carried out using a
@@ -121,9 +120,8 @@ center.test(x, y, paired = T, alternative = 'greater')
     ## 0.006 0.994 
     ## optimal decision: H1
 
+<!--
 ## Documentation
 
-See the package [vignette](vignette.pdf) or [reference
-manual](familial_0.1.0.pdf).
-
-<!-- See the package [vignette](https://CRAN.R-project.org/package=familial/vignettes/vignette.html) or [reference manual](https://CRAN.R-project.org/package=familial/familial.pdf). -->
+See the package [vignette](vignette.pdf) or [reference manual](familial_0.1.0.pdf).
+-->
