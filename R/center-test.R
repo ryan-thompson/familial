@@ -210,7 +210,7 @@ plot.center.test <- \(x, band = c(0.50, 0.75, 0.95), ninterp = 25, ...) {
                            level)
   func.bands <-  lapply(band, bands)
   func.bands <- do.call(rbind, func.bands)
-  func.bands$level <- factor(func.bands$level, levels = rev(band))
+  func.bands$level <- ordered(func.bands$level, levels = rev(band))
   colnames(func.bands) <- c('lower', 'upper', 'lambda', 'level')
 
   # Compute functional median
