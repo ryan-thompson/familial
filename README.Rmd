@@ -25,10 +25,10 @@ Presently, `familial` supports tests of the Huber family of centers, which inclu
 
 ## Installation
 
-<!-- To install the latest stable version from CRAN, run the following code: -->
-<!-- ``` {r, eval = F} -->
-<!-- install.packages('familial') -->
-<!-- ``` -->
+To install the latest stable version from CRAN, run the following code:
+``` {r, eval = F}
+install.packages('familial')
+```
 
 To install the latest development version from GitHub, run the following code:
 ``` {r, eval = F}
@@ -60,8 +60,6 @@ y <- MASS::anorexia[MASS::anorexia$Treat == 'FT', 'Prewt']
 center.test(x, y, paired = T, alternative = 'greater')
 ```
 
-<!--
 ## Documentation
 
-See the package [vignette](vignette.pdf) or [reference manual](familial_0.1.0.pdf).
--->
+See the package [vignette](https://cran.r-project.org/web/packages/familial/vignettes/vignette.html) or [reference manual](https://cran.r-project.org/web/packages/familial/familial.pdf).

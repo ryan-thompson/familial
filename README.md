@@ -39,10 +39,11 @@ provided.
 
 ## Installation
 
-<!-- To install the latest stable version from CRAN, run the following code: -->
-<!-- ``` {r, eval = F} -->
-<!-- install.packages('familial') -->
-<!-- ``` -->
+To install the latest stable version from CRAN, run the following code:
+
+``` r
+install.packages('familial')
+```
 
 To install the latest development version from GitHub, run the following
 code:
@@ -120,8 +121,9 @@ center.test(x, y, paired = T, alternative = 'greater')
     ## 0.006 0.994 
     ## optimal decision: H1
 
-<!--
 ## Documentation
 
-See the package [vignette](vignette.pdf) or [reference manual](familial_0.1.0.pdf).
--->
+See the package
+[vignette](https://cran.r-project.org/web/packages/familial/vignettes/vignette.html)
+or [reference
+manual](https://cran.r-project.org/web/packages/familial/familial.pdf).
