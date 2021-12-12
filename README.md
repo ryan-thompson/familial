@@ -124,6 +124,6 @@ center.test(x, y, paired = T, alternative = 'greater')
 ## Documentation
 
 See the package
-[vignette](https://cran.r-project.org/web/packages/familial/vignettes/vignette.html)
+[vignette](https://CRAN.R-project.org/package=familial/vignettes/vignette.html)
 or [reference
-manual](https://cran.r-project.org/web/packages/familial/familial.pdf).
+manual](https://CRAN.R-project.org/package=familial/familial.pdf).

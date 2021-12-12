@@ -13,6 +13,20 @@ test_that('y must not contain NAs', {
   expect_error(center.test(x, y))
 })
 
+test_that('print function returns output', {
+  set.seed(123)
+  x <- rnorm(10)
+  test <- center.test(x)
+  expect_output(print(test))
+})
+
+test_that('plot function returns a plot', {
+  set.seed(123)
+  x <- rnorm(10)
+  path <- center.test(x)
+  expect_s3_class(plot(path), 'ggplot')
+})
+
 test_that('indeterminate result when x and y are distributed same and H0 is a point', {
   set.seed(123)
   x <- rnorm(100)
@@ -57,18 +71,4 @@ test_that('sequential and parallel tests return same result', {
   test.par <- center.test(x, cluster = cl)
   parallel::stopCluster(cl)
   expect_equal(test.seq$decision, test.par$decision)
-})
-
-test_that('print function returns output', {
-  set.seed(123)
-  x <- rnorm(100)
-  test <- center.test(x)
-  expect_output(print(test))
-})
-
-test_that('plot function returns a plot', {
-  set.seed(123)
-  x <- rnorm(100)
-  path <- center.test(x)
-  expect_s3_class(plot(path), 'ggplot')
 })

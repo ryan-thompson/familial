@@ -20,13 +20,8 @@
 #' @export
 
 weighted.median <- \(x, w) {
-  w <- w / sum(w)
-  id <- order(x)
-  x <- x[id]
-  w <- w[id]
-  cs <- cumsum(w)
-  keep <- c(which(cs == 0.5), which.min(cs <= 0.5))
-  sum(x[keep] * w[keep]) / sum(w[keep])
+  interpolate <- length(unique(w)) == 1
+  matrixStats::weightedMedian(x, w, interpolate = interpolate)
 }
 
 #' @rdname weighted
