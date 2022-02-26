@@ -26,7 +26,7 @@ where $\{\mu(\lambda):\lambda\in\Lambda\}$ is a family of centers. Presently, `f
 
 To test familial hypotheses, `familial` uses the Bayesian bootstrap. The Bayesian bootstrap uses weights $w_1^{(b)},\ldots,w_n^{(b)}$ ($b=1,\ldots,B$) from a uniform Dirichlet distribution in the computation
 $$
-\hat{\mu}^{(b)}(\lambda):=\underset{\mu\in\mathbb{R}}{\operatorname{arg~min}}\sum_{i=1}^nw_i^{(b)}\ell_\lambda\left(\frac{x_i-\mu}{\sigma}\right),
+\mu^{(b)}(\lambda):=\underset{\mu\in\mathbb{R}}{\operatorname{arg~min}}\sum_{i=1}^nw_i^{(b)}\ell_\lambda\left(\frac{x_i-\mu}{\sigma}\right),
 $$
 where the Huber loss function $l_\lambda$ is defined as
 $$
@@ -37,7 +37,7 @@ $$
 \end{cases}
 $$
 
-The above minimization is solved for all values of $\lambda\in\Lambda=(0,\infty)$ for $b=1,\ldots,B$. The proportion of times that $\{\hat{\mu}^{(b)}(\lambda):\lambda\in\Lambda\}_{b=1}^B$ contains the null value $\mu_0$ represents the estimated posterior probability of $\mathrm{H}_0$ being true. To map this probability to a decision (accept, reject, or indeterminate), we assign a loss to making an incorrect decision. The decision that minimizes the expected loss under the posterior distribution is the optimal one.
+The above minimization is solved for all values of $\lambda\in\Lambda=(0,\infty)$ for $b=1,\ldots,B$. The proportion of times that $\{\mu^{(b)}(\lambda):\lambda\in\Lambda\}_{b=1}^B$ contains the null value $\mu_0$ represents the estimated posterior probability of $\mathrm{H}_0$ being true. To map this probability to a decision (accept, reject, or indeterminate), we assign a loss to making an incorrect decision. The decision that minimizes the expected loss under the posterior distribution is the optimal one.
 
 ## One-sample tests
 

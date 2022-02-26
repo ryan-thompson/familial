@@ -26,7 +26,7 @@ weights \code{w} (in that order), and return a numeric}
 }
 \value{
 An object of class \code{fit.family}; a data frame with the following columns:
-\item{mu.hat}{the fitted values}
+\item{mu}{the fitted values}
 \item{lambda}{the thresholding parameter}
 }
 \description{

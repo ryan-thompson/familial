@@ -51,6 +51,7 @@ center.test <- \(x, y = NULL, family = 'huber',  alternative = c('two.sided', 'l
                  mu = 0, paired = FALSE, nboot = 1000, loss = NULL, cluster = NULL, ...) {
 
   # Check arguments are valid
+  mu0 <- mu; rm(mu)
   family <- match.arg(family)
   alternative <- match.arg(alternative)
   if (anyNA(x)) stop('x must not contain NA values')
@@ -88,23 +89,23 @@ center.test <- \(x, y = NULL, family = 'huber',  alternative = c('two.sided', 'l
       lambda <- unique(boot.b$lambda)
       x.b <- boot.b[boot.b$var == 'x', ]
       y.b <- boot.b[boot.b$var == 'y', ]
-      x.b <- stats::approx(x.b$lambda, x.b$mu.hat, lambda,
-                           yleft = x.b$mu.hat[which.min(x.b$lambda)],
-                           yright = x.b$mu.hat[which.max(x.b$lambda)],
-                           method = ifelse(length(x.b$mu.hat) > 1, 'linear', 'constant'))
-      y.b <- stats::approx(y.b$lambda, y.b$mu.hat, lambda,
-                           yleft = y.b$mu.hat[which.min(y.b$lambda)],
-                           yright = y.b$mu.hat[which.max(y.b$lambda)],
-                           method = ifelse(length(y.b$mu.hat) > 1, 'linear', 'constant'))
-      data.frame(boot.id = b, mu.hat = x.b$y - y.b$y, lambda = x.b$x)
+      x.b <- stats::approx(x.b$lambda, x.b$mu, lambda,
+                           yleft = x.b$mu[which.min(x.b$lambda)],
+                           yright = x.b$mu[which.max(x.b$lambda)],
+                           method = ifelse(length(x.b$mu) > 1, 'linear', 'constant'))
+      y.b <- stats::approx(y.b$lambda, y.b$mu, lambda,
+                           yleft = y.b$mu[which.min(y.b$lambda)],
+                           yright = y.b$mu[which.max(y.b$lambda)],
+                           method = ifelse(length(y.b$mu) > 1, 'linear', 'constant'))
+      data.frame(boot.id = b, mu = x.b$y - y.b$y, lambda = x.b$x)
     }
     boot <- lapply(1:nboot, interpolate)
     boot <- do.call(rbind, boot)
   }
 
   # Compute posterior probabilities and expected loss
-  prob.less <- mean(stats::aggregate(mu.hat ~ boot.id, boot, \(x) max(x) < min(mu))$mu.hat)
-  prob.greater <- mean(stats::aggregate(mu.hat ~ boot.id, boot, \(x) min(x) > max(mu))$mu.hat)
+  prob.less <- mean(stats::aggregate(mu ~ boot.id, boot, \(x) max(x) < min(mu0))$mu)
+  prob.greater <- mean(stats::aggregate(mu ~ boot.id, boot, \(x) min(x) > max(mu0))$mu)
   prob.equal <- 1 - prob.less - prob.greater
   if (alternative == 'two.sided') {
     prob <- c(prob.equal, prob.less + prob.greater)
@@ -124,7 +125,7 @@ center.test <- \(x, y = NULL, family = 'huber',  alternative = c('two.sided', 'l
                  boot = boot,
                  x = x,
                  y = y,
-                 mu = mu)
+                 mu = mu0)
   class(result) <- 'center.test'
   attributes(result)$family <- family
   return(result)
@@ -194,11 +195,11 @@ plot.center.test <- \(x, band = c(0.50, 0.75, 0.95), ninterp = 25, ...) {
   lambda <- seq(min(x$boot$lambda), max(x$boot$lambda), length.out = ninterp)
   interpolate <- \(b) {
     x.b <- x$boot[x$boot$boot.id == b, ]
-    x.b <- stats::approx(x.b$lambda, x.b$mu.hat, lambda,
-                         yleft = x.b$mu.hat[which.min(x.b$lambda)],
-                         yright = x.b$mu.hat[which.max(x.b$lambda)],
-                         method = ifelse(length(x.b$mu.hat) > 1, 'linear', 'constant'))
-    data.frame(boot.id = b, mu.hat = x.b$y, lambda = x.b$x)
+    x.b <- stats::approx(x.b$lambda, x.b$mu, lambda,
+                         yleft = x.b$mu[which.min(x.b$lambda)],
+                         yright = x.b$mu[which.max(x.b$lambda)],
+                         method = ifelse(length(x.b$mu) > 1, 'linear', 'constant'))
+    data.frame(boot.id = b, mu = x.b$y, lambda = x.b$x)
   }
   boot <- lapply(1:max(x$boot$boot.id), interpolate)
   boot <- do.call(rbind, boot)
@@ -223,8 +224,8 @@ plot.center.test <- \(x, band = c(0.50, 0.75, 0.95), ninterp = 25, ...) {
                          func.bands) +
     ggplot2::geom_line(ggplot2::aes(lambda, med), func.med) +
     ggplot2::xlab(expression(lambda)) +
-    ggplot2::ylab(ifelse(is.null(x$y), expression(hat(mu)(lambda)),
-                         expression(hat(mu)[X](lambda)-hat(mu)[Y](lambda)))) +
+    ggplot2::ylab(ifelse(is.null(x$y), expression(mu(lambda)),
+                         expression(mu[X](lambda)-mu[Y](lambda)))) +
     ggplot2::labs(alpha = 'Posterior central region')
 
 }

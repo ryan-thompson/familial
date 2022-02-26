@@ -16,7 +16,7 @@
 #' @param eps a numerical tolerance parameter
 #'
 #' @return An object of class \code{fit.family}; a data frame with the following columns:
-#' \item{mu.hat}{the fitted values}
+#' \item{mu}{the fitted values}
 #' \item{lambda}{the thresholding parameter}
 #'
 #' @example R/examples/example-fit-family.R
@@ -71,7 +71,7 @@ huber.family <- \(x, w, med, eps) {
     mu[m] <- mu[m - 1] + gamma * eta
     lambda[m] <- lambda[m - 1] - gamma
   }
-  data.frame(mu.hat = mu[1:m], lambda = lambda[1:m])
+  data.frame(mu = mu[1:m], lambda = lambda[1:m])
 }
 
 #==================================================================================================#
@@ -107,13 +107,13 @@ plot.fit.family <- \(x, y = NULL, ...) {
     mean.diff <- attributes(x)$mean - attributes(y)$mean
     median.diff <- attributes(x)$median - attributes(y)$median
     lambda <- union(x$lambda, y$lambda)
-    x <- stats::approx(x$lambda, x$mu.hat, lambda, yleft = x$mu.hat[which.min(x$lambda)],
-                       yright = x$mu.hat[which.max(x$lambda)],
-                       method = ifelse(length(x$mu.hat) > 1, 'linear', 'constant'))
-    y <- stats::approx(y$lambda, y$mu.hat, lambda, yleft = y$mu.hat[which.min(y$lambda)],
-                       yright = y$mu.hat[which.max(y$lambda)],
-                       method = ifelse(length(y$mu.hat) > 1, 'linear', 'constant'))
-    x <- data.frame(mu.hat = x$y - y$y, lambda = lambda)
+    x <- stats::approx(x$lambda, x$mu, lambda, yleft = x$mu[which.min(x$lambda)],
+                       yright = x$mu[which.max(x$lambda)],
+                       method = ifelse(length(x$mu) > 1, 'linear', 'constant'))
+    y <- stats::approx(y$lambda, y$mu, lambda, yleft = y$mu[which.min(y$lambda)],
+                       yright = y$mu[which.max(y$lambda)],
+                       method = ifelse(length(y$mu) > 1, 'linear', 'constant'))
+    x <- data.frame(mu = x$y - y$y, lambda = lambda)
     attributes(x)$family <- family
     attributes(x)$mean <- mean.diff
     attributes(x)$median <- median.diff
@@ -122,11 +122,11 @@ plot.fit.family <- \(x, y = NULL, ...) {
   # Plot family
   family.name <- tools::toTitleCase(attributes(x)$family)
   x$center <- family.name
-  x.mean <- data.frame(mu.hat = attributes(x)$mean, lambda = c(0, Inf), center = 'Mean')
-  x.median <- data.frame(mu.hat = attributes(x)$median, lambda = c(0, Inf), center = 'Median')
+  x.mean <- data.frame(mu = attributes(x)$mean, lambda = c(0, Inf), center = 'Mean')
+  x.median <- data.frame(mu = attributes(x)$median, lambda = c(0, Inf), center = 'Median')
   x <- rbind(x, x.mean, x.median)
   x$center <- factor(x$center, c(family.name, 'Mean', 'Median'))
-  ggplot2::ggplot(x, ggplot2::aes_string('lambda', 'mu.hat', linetype = 'center')) +
+  ggplot2::ggplot(x, ggplot2::aes_string('lambda', 'mu', linetype = 'center')) +
     ggplot2::geom_line() +
     ggplot2::xlab(expression(lambda)) +
     ggplot2::ylab(ifelse(is.null(y), expression(hat(mu)(lambda)),

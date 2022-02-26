@@ -24,7 +24,6 @@ In contrast to classic statistical tests such as the
 ![t](https://latex.codecogs.com/png.latex?t "t") or sign tests for the
 mean or median, familial tests do not depend on a single (sometimes
 arbitrarily chosen) center.
-<!-- See the package [vignette](vignette.pdf) for illustrations. -->
 
 Presently, `familial` supports tests of the Huber family of centers,
 which includes the mean and median. Testing is carried out using a
