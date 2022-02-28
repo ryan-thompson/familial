@@ -1,0 +1,13 @@
+citHeader("To cite familial in publications use:")
+
+citEntry(
+  entry       = "Article",
+  title       = "Familial inference",
+  author      = personList(as.person("Ryan Thompson"), as.person("Catherine S Forbes"), as.person("Steven N MacEachern"), as.person("Mario Peruggia")),
+  journal     = "arXiv:2202.12540",
+  year        = "2022",
+  textVersion =
+  paste("Ryan Thompson, Catherine S. Forbes, Steven N. MacEachern, Mario Peruggia (2022).",
+        "Familial inference",
+        "arXiv:2202.12540")
+)

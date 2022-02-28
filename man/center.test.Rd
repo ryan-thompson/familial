@@ -78,6 +78,10 @@ test <- center.test(MASS::galaxies, mu = 21000, nboot = 100, cluster = cl)
 parallel::stopCluster(cl)
 print(test)
 }
+\references{
+Thompson, R., Forbes, C. S., MacEachern, S. N., and Peruggia, M. (2022). 'Familial
+inference'. arXiv: \href{https://arxiv.org/abs/2202.12540}{2202.12540}.
+}
 \author{
 Ryan Thompson <ryan.thompson@monash.edu>
 }

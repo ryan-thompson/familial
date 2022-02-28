@@ -49,7 +49,7 @@ x <- MASS::galaxies
 test <- center.test(x, mu = 21000)
 print(test)
 ```
-The output above shows the estimated posterior probabilities for the events $\mathrm{H}_0$ and $\mathrm{H}_1$. The 54.2% probability assigned to $\mathrm{H}_0$ means that the Huber family contained a center equal to 21,000 km/sec in 54.2% of bootstraps. Because neither of the above probabilities is much larger than the other, the test results in an indeterminate outcome. By default, the function will return an indeterminate result when neither $\mathrm{H}_0$ nor $\mathrm{H}_1$ have probability at least 0.95. This choice of threshold is analogous to using a frequentist significance level of 0.05.
+The output above shows the estimated posterior probabilities for the events $\mathrm{H}_0$ and $\mathrm{H}_1$. The 54.2% probability assigned to $\mathrm{H}_0$ means that the Huber family contained a center equal to 21,000 km/sec in 54.2% of bootstraps. Because neither of the above probabilities is much larger than the other, the test results in an indeterminate outcome. By default, the function will return an indeterminate result when both $\mathrm{H}_0$ and $\mathrm{H}_1$ have probability less than 0.95. This choice of threshold is analogous to using a frequentist significance level of 0.05.
 
 It is  possible to visualize the posterior using a functional boxplot via the `plot` function.
 ```{r}

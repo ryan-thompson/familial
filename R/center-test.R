@@ -43,6 +43,9 @@
 #' The default loss matrix results in a decision whenever the posterior probability
 #' for one of the hypotheses is greater than 0.95 and otherwise is indeterminate.
 #'
+#' @references Thompson, R., Forbes, C. S., MacEachern, S. N., and Peruggia, M. (2022). 'Familial
+#' inference'. arXiv: \href{https://arxiv.org/abs/2202.12540}{2202.12540}.
+#'
 #' @example R/examples/example-center-test.R
 #'
 #' @export

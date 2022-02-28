@@ -1,7 +1,7 @@
 Package: familial
 Type: Package
 Title: Statistical Tests of Familial Hypotheses
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: person("Ryan", "Thompson",  email = "ryan.thompson@monash.edu", role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-9002-0448"))
 Description: Provides functionality for testing familial hypotheses. Currently supports tests of 
