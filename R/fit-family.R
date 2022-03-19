@@ -129,8 +129,8 @@ plot.fit.family <- \(x, y = NULL, ...) {
   ggplot2::ggplot(x, ggplot2::aes_string('lambda', 'mu', linetype = 'center')) +
     ggplot2::geom_line() +
     ggplot2::xlab(expression(lambda)) +
-    ggplot2::ylab(ifelse(is.null(y), expression(hat(mu)(lambda)),
-                         expression(hat(mu)[X](lambda)-hat(mu)[Y](lambda)))) +
+    ggplot2::ylab(ifelse(is.null(y), expression(mu(lambda)),
+                         expression(mu[X](lambda)-mu[Y](lambda)))) +
     ggplot2::labs(linetype = 'Center')
 
 }
