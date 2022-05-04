@@ -29,7 +29,7 @@ center.test(
 
 \item{mu}{the null value of the center for a one-sample test, or the
 null value of the center of differences for a paired two-sample test, or the null value of the
-difference in centers for an independent two-sample test; can be an interval}
+difference of centers for an independent two-sample test; can be an interval}
 
 \item{paired}{a logical indicating whether to treat \code{x} and \code{y} as paired}
 
@@ -68,11 +68,12 @@ The default loss matrix results in a decision whenever the posterior probability
 for one of the hypotheses is greater than 0.95 and otherwise is indeterminate.
 }
 \examples{
-# Familial test
+set.seed(123)
+
 test <- center.test(MASS::galaxies, mu = 21000, nboot = 100)
 print(test)
+plot(test)
 
-# Familial test in parallel
 cl <- parallel::makeCluster(2)
 test <- center.test(MASS::galaxies, mu = 21000, nboot = 100, cluster = cl)
 parallel::stopCluster(cl)

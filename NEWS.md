@@ -1,3 +1,7 @@
+# familial 1.0.3 (2022-05-04)
+* Improved documentation
+* Tidied up code
+
 # familial 1.0.2 (2022-02-28)
 * Added citation information
 * Updated notation to match paper

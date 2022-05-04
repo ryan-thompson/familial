@@ -56,22 +56,39 @@ fit.family <- \(x, w = rep(1, length(x)), family = 'huber', spread.fun = weighte
 
 # Huber family
 huber.family <- \(x, w, med, eps) {
+
+  # Compute important quantities upfront
   n <- length(x)
   w <- w / sum(w)
   s <- sign(x - med)
+
+  # Initialize variables
   lambda <- mu <- numeric(n)
   mu[1] <- sum(x * w)
   lambda[1] <- max(abs(x - mu[1]))
+
   for (m in 2:n) {
+
+    # Update active set
     d <- lambda[m - 1] - pmin(s * (x - mu[m - 1]), lambda[m - 1])
     A <- d ^ 2 < eps
+
+    # Stop if finished
     if (sum(A) == n) {m <- m - 1; break}
+
+    # Compute gradient and step size
     eta <- - sum(w[A] * s[A]) / sum(w[!A])
     gamma <- min(d[!A] / (1 - s[!A] * eta))
+
+    # Update mu and lambda
     mu[m] <- mu[m - 1] + gamma * eta
     lambda[m] <- lambda[m - 1] - gamma
+
   }
+
+  # Return result
   data.frame(mu = mu[1:m], lambda = lambda[1:m])
+
 }
 
 #==================================================================================================#

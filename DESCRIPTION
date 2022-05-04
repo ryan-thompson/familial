@@ -1,11 +1,11 @@
 Package: familial
 Type: Package
 Title: Statistical Tests of Familial Hypotheses
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: person("Ryan", "Thompson",  email = "ryan.thompson@monash.edu", role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-9002-0448"))
-Description: Provides functionality for testing familial hypotheses. Currently supports tests of 
-    the Huber family of centers. Testing is carried out using the Bayesian bootstrap. One- and 
+Description: Provides functionality for testing familial hypotheses. Supports testing centers 
+    belonging to the Huber family. Testing is carried out using the Bayesian bootstrap. One- and 
     two-sample tests are supported, as are directional tests. Methods for visualizing output are 
     provided.
 URL: https://github.com/ryan-thompson/familial

@@ -15,7 +15,7 @@
 #' 'greater', or 'less'
 #' @param mu the null value of the center for a one-sample test, or the
 #' null value of the center of differences for a paired two-sample test, or the null value of the
-#' difference in centers for an independent two-sample test; can be an interval
+#' difference of centers for an independent two-sample test; can be an interval
 #' @param paired a logical indicating whether to treat \code{x} and \code{y} as paired
 #' @param nboot the number of bootstraps to perform
 #' @param loss an optional c×2 matrix of losses incurred from an incorrect decision, where c is the
@@ -50,7 +50,7 @@
 #'
 #' @export
 
-center.test <- \(x, y = NULL, family = 'huber',  alternative = c('two.sided', 'less', 'greater'),
+center.test <- \(x, y = NULL, family = 'huber', alternative = c('two.sided', 'less', 'greater'),
                  mu = 0, paired = FALSE, nboot = 1000, loss = NULL, cluster = NULL, ...) {
 
   # Check arguments are valid
@@ -169,7 +169,7 @@ print.center.test <- \(x, ...) {
 # Plot function for center.test object
 #==================================================================================================#
 
-globalVariables(c('level', 'lower', 'upper', 'med', 'mu.hat'))
+globalVariables(c('level', 'lower', 'upper', 'med'))
 
 #' @title Plot function for \code{center.test} object
 #'

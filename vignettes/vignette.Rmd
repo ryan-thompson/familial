@@ -28,7 +28,7 @@ To test familial hypotheses, `familial` uses the Bayesian bootstrap. The Bayesia
 $$
 \mu^{(b)}(\lambda):=\underset{\mu\in\mathbb{R}}{\operatorname{arg~min}}\sum_{i=1}^nw_i^{(b)}\ell_\lambda\left(\frac{x_i-\mu}{\sigma}\right),
 $$
-where the Huber loss function $l_\lambda$ is defined as
+where the Huber loss function $\ell_\lambda$ is defined as
 $$
 \ell_\lambda(z):=
 \begin{cases}
@@ -51,12 +51,12 @@ print(test)
 ```
 The output above shows the estimated posterior probabilities for the events $\mathrm{H}_0$ and $\mathrm{H}_1$. The 54.2% probability assigned to $\mathrm{H}_0$ means that the Huber family contained a center equal to 21,000 km/sec in 54.2% of bootstraps. Because neither of the above probabilities is much larger than the other, the test results in an indeterminate outcome. By default, the function will return an indeterminate result when both $\mathrm{H}_0$ and $\mathrm{H}_1$ have probability less than 0.95. This choice of threshold is analogous to using a frequentist significance level of 0.05.
 
-It is  possible to visualize the posterior using a functional boxplot via the `plot` function.
+It's possible to visualize the posterior using a functional boxplot via the `plot` function.
 ```{r}
 plot(test)
 ```
 
-Rather than specify a null value that is a point, we can specify the null as an interval. Let's now test whether the velocity is between 20,500 km/sec and 21,500 km/sec.
+Rather than specify a null value that is a point, we can specify a null that is an interval. Let's now test whether the velocity is between 20,500 km/sec and 21,500 km/sec.
 ```{r}
 center.test(x, mu = c(20500, 21500))
 ```

@@ -23,28 +23,67 @@ test_that('print function returns output', {
 test_that('plot function returns a plot', {
   set.seed(123)
   x <- rnorm(10)
-  path <- center.test(x)
-  expect_s3_class(plot(path), 'ggplot')
+  test <- center.test(x)
+  expect_s3_class(plot(test), 'ggplot')
 })
 
-test_that('indeterminate result when x and y are distributed same and H0 is a point', {
+test_that('indeterminate result when center is zero', {
+  set.seed(123)
+  x <- rnorm(100)
+  expect_equal(center.test(x, family = 'huber')$decision, 'indeterminate')
+})
+
+test_that('H0 is accepted when center is zero and H0 is an interval', {
+  set.seed(123)
+  x <- rnorm(100)
+  expect_equal(center.test(x, family = 'huber', mu = c(- 1, 1))$decision, 'H0')
+})
+
+test_that('H1 is accepted when center is not zero', {
+  set.seed(123)
+  x <- rnorm(100, 1)
+  expect_equal(center.test(x, family = 'huber')$decision, 'H1')
+})
+
+test_that('indeterminate result when difference in centers is zero', {
   set.seed(123)
   x <- rnorm(100)
   y <- rnorm(100)
   expect_equal(center.test(x, y, family = 'huber')$decision, 'indeterminate')
 })
 
-test_that('H0 is accepted when x and y are distributed different and H0 is an interval', {
+test_that('H0 is accepted when difference in centers is zero and H0 is an interval', {
   set.seed(123)
   x <- rnorm(100)
   y <- rnorm(100)
   expect_equal(center.test(x, y, family = 'huber', mu = c(- 1, 1))$decision, 'H0')
 })
 
-test_that('H0 is rejected when x and y are distributed different but paired', {
+test_that('H1 is accepted when difference in centers is not zero', {
+  set.seed(123)
+  x <- rnorm(100, 1)
+  y <- rnorm(100)
+  expect_equal(center.test(x, y, family = 'huber')$decision, 'H1')
+})
+
+test_that('indeterminate result when center of differences is zero', {
   set.seed(123)
   x <- rnorm(100)
-  y <- 0.5 * x + 0.5 * rnorm(100, mean = 1)
+  y <- rnorm(100)
+  expect_equal(center.test(x, y, family = 'huber', paired = TRUE)$decision, 'indeterminate')
+})
+
+test_that('H0 is accepted when center of differences is zero and H0 is an interval', {
+  set.seed(123)
+  x <- rnorm(100)
+  y <- rnorm(100)
+  expect_equal(center.test(x, y, family = 'huber', mu = c(- 1, 1), paired = TRUE)$decision, 'H0')
+})
+
+test_that('H1 is accepted when center of differences is not zero', {
+  set.seed(123)
+  x <- rnorm(100, 1)
+  y <- rnorm(100)
   expect_equal(center.test(x, y, family = 'huber', paired = TRUE)$decision, 'H1')
 })
 

@@ -28,9 +28,8 @@ An object of class \code{bayes.boot}; a data frame with the following columns:
 Performs a Bayesian bootstrap for a statistic defined via a suitable function.
 }
 \examples{
-set.seed(1)
+set.seed(123)
 
-# Bootstrap
 boot <- bayes.boot(MASS::galaxies, fun = fit.family, nboot = 100)
 head(boot)
 }
