@@ -1,3 +1,6 @@
+# familial 1.0.4 (2022-09-06)
+* Updated author information
+
 # familial 1.0.3 (2022-05-04)
 * Improved documentation
 * Tidied up code

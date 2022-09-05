@@ -1,8 +1,8 @@
 Package: familial
 Type: Package
 Title: Statistical Tests of Familial Hypotheses
-Version: 1.0.3
-Authors@R: person("Ryan", "Thompson",  email = "ryan.thompson@monash.edu", role = c("aut", "cre"), 
+Version: 1.0.4
+Authors@R: person("Ryan", "Thompson",  email = "ryan.thompson1@unsw.edu.au", role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-9002-0448"))
 Description: Provides functionality for testing familial hypotheses. Supports testing centers 
     belonging to the Huber family. Testing is carried out using the Bayesian bootstrap. One- and 
@@ -14,7 +14,7 @@ License: GPL-3
 Encoding: UTF-8
 Depends: R (>= 4.1.0)
 Imports: parallel, ggplot2, DepthProc, matrixStats
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Suggests: testthat, knitr, rmarkdown, MASS
 VignetteBuilder: knitr
 Config/testthat/edition: 3
