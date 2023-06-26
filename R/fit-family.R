@@ -4,7 +4,7 @@
 
 #' @title Fit family
 #'
-#' @author Ryan Thompson <ryan.thompson@monash.edu>
+#' @author Ryan Thompson <ryan.thompson1@unsw.edu.au>
 #'
 #' @description Fits a family of centers.
 #'
@@ -77,11 +77,11 @@ huber.family <- \(x, w, med, eps) {
     if (sum(A) == n) {m <- m - 1; break}
 
     # Compute gradient and step size
-    eta <- - sum(w[A] * s[A]) / sum(w[!A])
-    gamma <- min(d[!A] / (1 - s[!A] * eta))
+    eta <- sum(w[A] * s[A]) / sum(w[!A])
+    gamma <- min(d[!A] / (1 + s[!A] * eta))
 
     # Update mu and lambda
-    mu[m] <- mu[m - 1] + gamma * eta
+    mu[m] <- mu[m - 1] - gamma * eta
     lambda[m] <- lambda[m - 1] - gamma
 
   }
@@ -94,6 +94,8 @@ huber.family <- \(x, w, med, eps) {
 #==================================================================================================#
 # Plot function for fit.family object
 #==================================================================================================#
+
+globalVariables(c('mu', 'center'))
 
 #' @title Plot function for \code{fit.family} object
 #'
@@ -143,7 +145,7 @@ plot.fit.family <- \(x, y = NULL, ...) {
   x.median <- data.frame(mu = attributes(x)$median, lambda = c(0, Inf), center = 'Median')
   x <- rbind(x, x.mean, x.median)
   x$center <- factor(x$center, c(family.name, 'Mean', 'Median'))
-  ggplot2::ggplot(x, ggplot2::aes_string('lambda', 'mu', linetype = 'center')) +
+  ggplot2::ggplot(x, ggplot2::aes(lambda, mu, linetype = center)) +
     ggplot2::geom_line() +
     ggplot2::xlab(expression(lambda)) +
     ggplot2::ylab(ifelse(is.null(y), expression(mu(lambda)),

@@ -4,7 +4,7 @@
 
 #' @title Uniform Dirichlet distribution
 #'
-#' @author Ryan Thompson <ryan.thompson@monash.edu>
+#' @author Ryan Thompson <ryan.thompson1@unsw.edu.au>
 #'
 #' @description Random number generation for the uniform Dirichlet distribution (having all
 #' concentration parameters set to one).

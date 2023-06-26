@@ -4,7 +4,7 @@
 
 #' @title Bayesian bootstrap
 #'
-#' @author Ryan Thompson <ryan.thompson@monash.edu>
+#' @author Ryan Thompson <ryan.thompson1@unsw.edu.au>
 #'
 #' @description Performs a Bayesian bootstrap for a statistic defined via a suitable function.
 #'

@@ -22,5 +22,5 @@ A length-one numeric vector.
 Assorted weighted statistics unavailable in base R.
 }
 \author{
-Ryan Thompson <ryan.thompson@monash.edu>
+Ryan Thompson <ryan.thompson1@unsw.edu.au>
 }

@@ -80,9 +80,10 @@ parallel::stopCluster(cl)
 print(test)
 }
 \references{
-Thompson, R., Forbes, C. S., MacEachern, S. N., and Peruggia, M. (2022). 'Familial
-inference'. arXiv: \href{https://arxiv.org/abs/2202.12540}{2202.12540}.
+Thompson, R., Forbes, C. S., MacEachern, S. N., and Peruggia, M. (2023). 'Familial
+inference: Tests for hypotheses on a family of centres'. arXiv:
+\href{https://arxiv.org/abs/2202.12540}{2202.12540}.
 }
 \author{
-Ryan Thompson <ryan.thompson@monash.edu>
+Ryan Thompson <ryan.thompson1@unsw.edu.au>
 }

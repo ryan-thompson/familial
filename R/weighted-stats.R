@@ -4,7 +4,7 @@
 
 #' @title Weighted statistics
 #'
-#' @author Ryan Thompson <ryan.thompson@monash.edu>
+#' @author Ryan Thompson <ryan.thompson1@unsw.edu.au>
 #'
 #' @description Assorted weighted statistics unavailable in base R.
 #'

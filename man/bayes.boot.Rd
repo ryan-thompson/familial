@@ -34,5 +34,5 @@ boot <- bayes.boot(MASS::galaxies, fun = fit.family, nboot = 100)
 head(boot)
 }
 \author{
-Ryan Thompson <ryan.thompson@monash.edu>
+Ryan Thompson <ryan.thompson1@unsw.edu.au>
 }

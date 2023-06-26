@@ -1,3 +1,8 @@
+# familial 1.0.5 (2022-09-06)
+* Fixed deprecation warning from ggplot2
+* Updated paper citation
+* Changed gradient to match formulation in paper
+
 # familial 1.0.4 (2022-09-06)
 * Updated author information
 

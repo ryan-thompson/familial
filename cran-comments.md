@@ -1,7 +1,5 @@
-The author information has been updated with a new email address.
-
 ## Test environments
-* ubuntu 22.04, R 4.2.1
+* ubuntu 22.04, R 4.3.0
 * win-builder (release and devel)
 
 ## R CMD check results

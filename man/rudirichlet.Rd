@@ -19,5 +19,5 @@ Random number generation for the uniform Dirichlet distribution (having all
 concentration parameters set to one).
 }
 \author{
-Ryan Thompson <ryan.thompson@monash.edu>
+Ryan Thompson <ryan.thompson1@unsw.edu.au>
 }
