@@ -1,13 +1,9 @@
 citHeader("To cite familial in publications use:")
 
-citEntry(
-  entry       = "Article",
+bibentry(
+  bibtype     = "Article",
   title       = "Familial inference: Tests for hypotheses on a family of centres",
-  author      = personList(as.person("Ryan Thompson"), as.person("Catherine S Forbes"), as.person("Steven N MacEachern"), as.person("Mario Peruggia")),
+  author      = c(as.person("Ryan Thompson"), as.person("Catherine S Forbes"), as.person("Steven N MacEachern"), as.person("Mario Peruggia")),
   journal     = "arXiv:2202.12540",
-  year        = "2023",
-  textVersion =
-  paste("Ryan Thompson, Catherine S. Forbes, Steven N. MacEachern, Mario Peruggia (2023).",
-        "Familial inference",
-        "arXiv:2202.12540")
+  year        = "2023"
 )
