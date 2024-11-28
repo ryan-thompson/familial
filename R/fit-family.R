@@ -4,7 +4,7 @@
 
 #' @title Fit family
 #'
-#' @author Ryan Thompson <ryan.thompson1@unsw.edu.au>
+#' @author Ryan Thompson <ryan.thompson-1@uts.edu.au>
 #'
 #' @description Fits a family of centers.
 #'

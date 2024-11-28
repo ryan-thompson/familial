@@ -23,5 +23,5 @@ A plot of the posterior distribution.
 Plot the posterior distribution for the family of centers using a functional box plot.
 }
 \author{
-Ryan Thompson <ryan.thompson@monash.edu>
+Ryan Thompson <ryan.thompson-1@uts.edu.au>
 }

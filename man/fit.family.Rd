@@ -37,5 +37,5 @@ fit <- fit.family(MASS::galaxies)
 plot(fit)
 }
 \author{
-Ryan Thompson <ryan.thompson1@unsw.edu.au>
+Ryan Thompson <ryan.thompson-1@uts.edu.au>
 }

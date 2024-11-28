@@ -4,7 +4,7 @@
 
 #' @title Center test
 #'
-#' @author Ryan Thompson <ryan.thompson1@unsw.edu.au>
+#' @author Ryan Thompson <ryan.thompson-1@uts.edu.au>
 #'
 #' @description Performs a one- or two-sample test for a family of centers.
 #'
@@ -43,9 +43,8 @@
 #' The default loss matrix results in a decision whenever the posterior probability
 #' for one of the hypotheses is greater than 0.95 and otherwise is indeterminate.
 #'
-#' @references Thompson, R., Forbes, C. S., MacEachern, S. N., and Peruggia, M. (2023). 'Familial
-#' inference: Tests for hypotheses on a family of centres'. arXiv:
-#' \href{https://arxiv.org/abs/2202.12540}{2202.12540}.
+#' @references Thompson, R., Forbes, C. S., MacEachern, S. N., and Peruggia, M. (2024). 'Familial
+#' inference: Tests for hypotheses on a family of centres'. Biometrika 111.3, pp. 1029–1045.
 #'
 #' @example R/examples/example-center-test.R
 #'
@@ -142,7 +141,7 @@ center.test <- \(x, y = NULL, family = 'huber', alternative = c('two.sided', 'le
 
 #' @title Print function for \code{center.test} object
 #'
-#' @author Ryan Thompson <ryan.thompson@monash.edu>
+#' @author Ryan Thompson <ryan.thompson-1@uts.edu.au>
 #'
 #' @description Print objects of class \code{center.test}.
 #'
@@ -174,7 +173,7 @@ globalVariables(c('level', 'lower', 'upper', 'med'))
 
 #' @title Plot function for \code{center.test} object
 #'
-#' @author Ryan Thompson <ryan.thompson@monash.edu>
+#' @author Ryan Thompson <ryan.thompson-1@uts.edu.au>
 #'
 #' @description Plot the posterior distribution for the family of centers using a functional box plot.
 #'

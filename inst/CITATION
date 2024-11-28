@@ -4,6 +4,9 @@ bibentry(
   bibtype     = "Article",
   title       = "Familial inference: Tests for hypotheses on a family of centres",
   author      = c(as.person("Ryan Thompson"), as.person("Catherine S Forbes"), as.person("Steven N MacEachern"), as.person("Mario Peruggia")),
-  journal     = "arXiv:2202.12540",
-  year        = "2023"
+  journal     = "Biometrika",
+  volume      = "111",
+  number      = "3",
+  pages       = "1029--1045",
+  year        = "2024"
 )
