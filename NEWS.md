@@ -1,3 +1,6 @@
+# familial 1.0.7 (2024-12-10)
+* Fixed typo in documentation
+
 # familial 1.0.6 (2024-11-28)
 * Updated author information
 * Updated paper citation

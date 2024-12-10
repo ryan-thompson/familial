@@ -99,7 +99,7 @@ globalVariables(c('mu', 'center'))
 
 #' @title Plot function for \code{fit.family} object
 #'
-#' @author Ryan Thompson <ryan.thompson@monash.edu>
+#' @author Ryan Thompson <ryan.thompson-1@uts.edu.au>
 #'
 #' @description Plot a fitted family.
 #'

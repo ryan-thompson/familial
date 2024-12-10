@@ -20,5 +20,5 @@ A plot of the fitted family.
 Plot a fitted family.
 }
 \author{
-Ryan Thompson <ryan.thompson@monash.edu>
+Ryan Thompson <ryan.thompson-1@uts.edu.au>
 }
